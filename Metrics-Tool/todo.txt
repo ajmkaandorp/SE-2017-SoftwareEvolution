@@ -1,0 +1,12 @@
+TODO:
+
+- doc: https://www.ou.nl/documents/40554/349790/T66311_02.pdf
+
+- Import Java Project - Done
+- 1: Measure volume
+	- Per class
+	- Lines of code
+	
+- 2: Measure duplication
+- 3: Measure Unit complexity
+- 4: Measure Unit Size
