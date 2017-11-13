@@ -23,6 +23,7 @@ public loc getProject()
 // Main method
 void main() {
 	
+	
 	// start the test
 	println("Starting SIG test at: " + printTime(now(), "HH:mm:ss"));
 	
