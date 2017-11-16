@@ -3,6 +3,7 @@ module metrics::vol
 import lang::java::jdt::m3::Core;
 import String;
 import IO;
+import List;
 
 public str getVolumeScore(int amountLines) {
 	// reader score amount of lines * 1000 
@@ -28,7 +29,8 @@ public int calcVolume(list[loc] classes) {
 }
 
 public int calcVolumeClass(loc location){
- str file = replaceAll(readFile(location)," ","");
+ // remove white space
+ str file = replaceAll(readFile(location)," ",""); 
  int n = 0;
  int newline = 0;
  for(int i <- [0 .. size(file)-1]){
@@ -40,3 +42,18 @@ public int calcVolumeClass(loc location){
  }
  return n;
 }
+
+public list[str] calcVolumeMethod(loc location) {
+	str content = readFile(location);
+	str filteredContent = removeUnwantedContent(content);
+	return split("\n", filteredContent);
+}
+
+//src: https://stackoverflow.com/questions/40257662/how-to-remove-whitespace-from-a-string-in-rascal
+public str removeUnwantedContent(str content) {
+	return visit (content) { 
+  		case /[\t\n]/ => "" //remove whitespace
+  		case /\/\*.*?\*\//s => "" //remove comments
+	}
+}
+

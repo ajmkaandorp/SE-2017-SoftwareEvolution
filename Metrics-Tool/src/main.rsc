@@ -7,25 +7,28 @@ import DateTime;
 import Set;
 //importing metrics
 import metrics::vol;
+import metrics::dupl;
 
 import lang::java::m3::Core;
 import lang::java::jdt::m3::Core;
 import lang::java::jdt::m3::AST;
 
-public loc getProject()
+public loc getProject(int number)
 {
-	return |project://hsqldb-2.3.1|;
+	switch (number) {
+		case 1: return |project://examples-testing|;
+		case 2: return |project://smallsql0.21_src|;
+		case 3: return |project://hsqldb-2.3.1|;
+	}
 }
 
 // Main method
 void main() {
-	
-	
 	// start the test
 	println("Starting SIG test at: " + printTime(now(), "HH:mm:ss"));
 	
 	// get the m3 model
-	loc projectLocation = getProject();
+	loc projectLocation = getProject(1);
 	M3 model = getM3Model(projectLocation);
 	
 	// get the AST model
@@ -34,26 +37,30 @@ void main() {
 	//assessJavaFile(readJavaFile());
 	
 	//get classes
-	list[loc] classes = getClasses(model);
+	//list[loc] classes = getClasses(model);
 	//println("--There are <amountOfClasses(classes)> classes in this project.");
 	
 	//Volume
-	println("------------------------------------------------------------------------");
-	println("Started Calculating Volume at: " + printTime(now(), "HH:mm:ss"));
-	int volume = calcVolume(classes);
-	println("	The total number of lines: <volume> gives this project a score of <getVolumeScore(volume)>");
-	println("Ended Calculating Volume at: " + printTime(now(), "HH:mm:ss"));
-	println("------------------------------------------------------------------------");
+	//println("------------------------------------------------------------------------");
+	//println("Started Calculating Volume at: " + printTime(now(), "HH:mm:ss"));
+	//int volume = calcVolume(classes);
+	//println("	The total number of lines: <volume> gives this project a score of <getVolumeScore(volume)>");
+	//println("Ended Calculating Volume at: " + printTime(now(), "HH:mm:ss"));
+	//println("------------------------------------------------------------------------");
 	
 	
 	
 	
 	println("Calculating Unit Size at: " + printTime(now(), "HH:mm:ss"));
 	
-	
 	println("Calculating Unit Complexity at: " + printTime(now(), "HH:mm:ss"));
 	
+	println("------------------------------------------------------------------------");
 	println("Calculating Duplication at: " + printTime(now(), "HH:mm:ss"));
+	int duplication = calcDuplication(getMethods(model));
+	println("Method blocks : <duplication>");
+	println("------------------------------------------------------------------------");
+	
 }
 
 // get a list of all classes within the project
@@ -74,6 +81,8 @@ public int amountOfMethods(list[loc] methods) {
  	return size(methods);
 }
 
+
+
 //get the contents of a file
 public str fileContent(loc file) {
 	return readFile(file);
@@ -81,6 +90,7 @@ public str fileContent(loc file) {
 
 //remove comments from the contents of a file
 public str removeComments(str text) {
+	
 	return replaceAll(text, "//.*|/\\*((.|\\n)(?!=*/))+\\*/", "");
 }
 

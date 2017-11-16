@@ -3,13 +3,14 @@ TODO:
 - doc: https://www.ou.nl/documents/40554/349790/T66311_02.pdf
 
 - Import Java Project - Done
-- 1: Measure volume
-	- Per class
-	- Lines of code
+- 1: Measure volume - in progress
+	- Per class  - done
+	- Lines of code - done
+	- testing and finalizing - in progress
 	
-- 2: Measure duplication
-	- Score based on percentage duplicate
-	- 2.1. filter out all methods with less than 6 lines
+- 2: Measure duplication - in progress
+	 (Score based on percentage duplicate)
+	- filter out all methods with less than 6 lines - done
 	- 2.2. 
 
 - 3: Measure Unit complexity
