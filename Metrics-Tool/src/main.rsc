@@ -6,10 +6,7 @@ import String;
 import DateTime;
 import Set;
 //importing metrics
-import Metrics::vol;
-import Metrics::uSize;
-import Metrics::uCompl;
-import Metrics::dupl;
+import metrics::vol;
 
 import lang::java::m3::Core;
 import lang::java::jdt::m3::Core;
@@ -17,7 +14,7 @@ import lang::java::jdt::m3::AST;
 
 public loc getProject()
 {
-	return |project://smallsql0.21_src|;
+	return |project://hsqldb-2.3.1|;
 }
 
 // Main method
@@ -38,10 +35,16 @@ void main() {
 	
 	//get classes
 	list[loc] classes = getClasses(model);
+	//println("--There are <amountOfClasses(classes)> classes in this project.");
 	
 	//Volume
-	println("Calculating Volume at: " + printTime(now(), "HH:mm:ss"));
-	println("--There are <amountOfClasses(classes)> classes in this project.");
+	println("------------------------------------------------------------------------");
+	println("Started Calculating Volume at: " + printTime(now(), "HH:mm:ss"));
+	int volume = calcVolume(classes);
+	println("	The total number of lines: <volume> gives this project a score of <getVolumeScore(volume)>");
+	println("Ended Calculating Volume at: " + printTime(now(), "HH:mm:ss"));
+	println("------------------------------------------------------------------------");
+	
 	
 	
 	
@@ -52,7 +55,6 @@ void main() {
 	
 	println("Calculating Duplication at: " + printTime(now(), "HH:mm:ss"));
 }
-
 
 // get a list of all classes within the project
 public list[loc] getClasses(M3 model) {
@@ -81,6 +83,9 @@ public str fileContent(loc file) {
 public str removeComments(str text) {
 	return replaceAll(text, "//.*|/\\*((.|\\n)(?!=*/))+\\*/", "");
 }
+
+
+
 //public list[str] getFileContent(loc file) {
 //	content = readFile(file);
 //}
