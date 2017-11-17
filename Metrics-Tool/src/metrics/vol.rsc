@@ -20,39 +20,77 @@ public str getVolumeScore(int amountLines) {
 }
 
 
-public int calcVolume(list[loc] classes) {
-	int n = 0;
-	for(projectClass <- classes) {
-		n += calcVolumeClass(projectClass);
+//public int calcVolumeClasses(list[loc] classes) {
+//	int n = 0;
+//	for(projectClass <- classes) {
+//		n += calcVolume(projectClass);
+//	}
+//	return n;
+//}
+
+//public list[str] calcVolumeMethod(loc location) {
+//	str content = readFile(location);
+//	str filteredContent = removeUnwantedContent(content);
+//	return split("\n", filteredContent);
+//}
+
+//public int calcTotalVolume(loc project) {
+//	int volume = 0;
+//
+//	M3 m3project = createM3FromEclipseProject(project);
+//	for(location <- m3project)
+//		volume += calcVolume(location);
+//	return volume;
+//}
+
+public int calcTotalVolume(set[loc] locations) {
+	int volume = 0;
+	for(location <- locations) 
+		volume += calcVolume(location);
+	return volume;
+}
+
+public tuple[list[int],list[loc]] calcIndividualVolume(set[loc] locations) {
+// Calculates the volume of code at each of the given locations (also works for methods).
+	list[int] volumes = [];
+	//int n = 0;  //for diagnostics
+	list[loc] loclist = [];
+	for(location <- locations){
+		//if(n==416) iprintln(location);  //also diagnostics
+		//n+=1;  //for the same diagnostics as before
+		volumes += [calcVolume(location)];
+		loclist += location;
 	}
+	return <volumes, loclist>;
+}
+
+public int calcVolume(loc location){
+    // remove white space
+    str file = replaceAll(readFile(location)," ","");
+    file = replaceAll(file,"\t","");
+    file += "\r\n";
+	//str file = removeUnwantedContent(readFile(location));
+	int n = 0;
+	int newline = 0;
+ 	for(int i <- [0 .. size(file)-1]){
+  		if(file[i]+file[i+1] =="\r\n"){
+   			str line = substring(file,newline,i);
+   			newline = i+2;
+   			if(size(line)>1 && /\w/:=line[0]) n+=1;
+			//if(size(line)>1 && /\w/:=line[0]){ n+=1; iprintln(line+" ADDED");
+			//}else{iprintln(line+" NOT");}
+		}
+	}
+	if(newline == 0) n = 1;
 	return n;
 }
 
-public int calcVolumeClass(loc location){
- // remove white space
- str file = replaceAll(readFile(location)," ",""); 
- int n = 0;
- int newline = 0;
- for(int i <- [0 .. size(file)-1]){
-  if(file[i]+file[i+1] =="\r\n"){
-   str line = substring(file,newline,i);
-   newline = i+2;
-   if(size(line)>1 && /\w/:=line[0]) n+=1;
-  }
- }
- return n;
-}
-
-public list[str] calcVolumeMethod(loc location) {
-	str content = readFile(location);
-	str filteredContent = removeUnwantedContent(content);
-	return split("\n", filteredContent);
-}
 
 //src: https://stackoverflow.com/questions/40257662/how-to-remove-whitespace-from-a-string-in-rascal
 public str removeUnwantedContent(str content) {
+// doesnt really work yet
 	return visit (content) { 
-  		case /[\t\n]/ => "" //remove whitespace
+  		case /[\t]/ => "" //remove whitespace
   		case /\/\*.*?\*\//s => "" //remove comments
 	}
 }
