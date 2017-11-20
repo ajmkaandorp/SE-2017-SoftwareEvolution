@@ -5,9 +5,14 @@ import List;
 import String;
 import DateTime;
 import Set;
-//importing metrics
+
+//import metrics
 import metrics::vol;
 import metrics::dupl;
+import metrics::uCompl;
+import metrics::uSize;
+//import scores
+import scores;
 
 import lang::java::m3::Core;
 import lang::java::jdt::m3::Core;
@@ -21,7 +26,7 @@ public loc getProject(int number)
 		case 3: return |project://hsqldb-2.3.1|;
 	}
 }
-
+ 
 // Main method
 void main() {
 	// start the test
@@ -43,7 +48,7 @@ void main() {
 	//Volume
 	//println("------------------------------------------------------------------------");
 	//println("Started Calculating Volume at: " + printTime(now(), "HH:mm:ss"));
-	//int volume = calcVolume(classes);
+	//int volume = calcVolume2(classes);
 	//println("	The total number of lines: <volume> gives this project a score of <getVolumeScore(volume)>");
 	//println("Ended Calculating Volume at: " + printTime(now(), "HH:mm:ss"));
 	//println("------------------------------------------------------------------------");
@@ -51,9 +56,14 @@ void main() {
 	
 	
 	
-	println("Calculating Unit Size at: " + printTime(now(), "HH:mm:ss"));
-	
-	println("Calculating Unit Complexity at: " + printTime(now(), "HH:mm:ss"));
+	//println("Calculating Unit Size at: " + printTime(now(), "HH:mm:ss"));
+	//
+	//println("Calculating Unit Complexity at: " + printTime(now(), "HH:mm:ss"));
+	//list[int] complexityList = calcComplexity(getProject());
+	//for(complexity <- complexityList)
+	//{
+	//	println(<complexity>);
+	//}
 	
 	println("------------------------------------------------------------------------");
 	println("Calculating Duplication at: " + printTime(now(), "HH:mm:ss"));

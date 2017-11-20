@@ -20,19 +20,20 @@ public str getVolumeScore(int amountLines) {
 }
 
 
-//public int calcVolumeClasses(list[loc] classes) {
-//	int n = 0;
-//	for(projectClass <- classes) {
-//		n += calcVolume(projectClass);
-//	}
-//	return n;
-//}
+public int calcVolumeClasses(list[loc] classes) {
+	int n = 0;
+	for(projectClass <- classes) {
+		n += calcVolume(projectClass);
+	}
+	return n;
+}
 
-//public list[str] calcVolumeMethod(loc location) {
-//	str content = readFile(location);
-//	str filteredContent = removeUnwantedContent(content);
-//	return split("\n", filteredContent);
-//}
+public list[str] calcVolumeMethod(loc location) {
+	//str content = readFile(location);
+	str content = replaceAll(readFile(location)," ","");
+	str filteredContent = removeUnwantedContent(content);
+	return split("\n", filteredContent);
+}
 
 //public int calcTotalVolume(loc project) {
 //	int volume = 0;
@@ -48,6 +49,10 @@ public int calcTotalVolume(set[loc] locations) {
 	for(location <- locations) 
 		volume += calcVolume(location);
 	return volume;
+}
+
+public list[str] calcMethodVolume(loc location) {
+	
 }
 
 public tuple[list[int],list[loc]] calcIndividualVolume(set[loc] locations) {
@@ -89,9 +94,10 @@ public int calcVolume(loc location){
 //src: https://stackoverflow.com/questions/40257662/how-to-remove-whitespace-from-a-string-in-rascal
 public str removeUnwantedContent(str content) {
 // doesnt really work yet
+//19/11: Fixed, removed whitespace, left comments
 	return visit (content) { 
-  		case /[\t]/ => "" //remove whitespace
-  		case /\/\*.*?\*\//s => "" //remove comments
+		case /\/\/.*/ => "" //remove single comments
+		case /\/\*.*?\*\//s => "" // remove multi line comments
 	}
 }
 
