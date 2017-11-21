@@ -81,10 +81,10 @@ public int calcVolume(loc location){
 			//	}else{iprintln("NOT "+line);}
 			//}
 			
-   			//if(size(line)>1) n+=1;
+   			if(size(line)>0) n+=1;
 
-			if(size(line)>1) {n+=1; iprintln("ADDED "+line);
-			}else{iprintln("NOT "+line);}
+			//if(size(line)>1) {n+=1; iprintln("ADDED "+line);
+			//}else{iprintln("NOT "+line);}
 			
 		}
 	}
@@ -96,8 +96,8 @@ public int calcVolume(loc location){
 public str removeUnwantedContent(str content) {
 //19/11: Fixed, removed whitespace, left comments
 	return visit (content) { 
-		case /\/\*[\s\S]*?\*\// => "" // remove multi line comments
-		case /\/\/.*/ => "" //remove single comments
+		case /\/\*[\s\S]*?\*\/|\/\/.*/ => "" // removes comments, partial thanks to Rocco
+		//case /\/\/.*/ => "" //remove single comments
 		//case /\/\*[\s\S]*?\*\/|\/\/.*/ => "" // Rocco's suggestion
 	}
 }
