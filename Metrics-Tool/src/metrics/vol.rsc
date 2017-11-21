@@ -35,15 +35,6 @@ public list[str] calcVolumeMethod(loc location) {
 	return split("\n", filteredContent);
 }
 
-//public int calcTotalVolume(loc project) {
-//	int volume = 0;
-//
-//	M3 m3project = createM3FromEclipseProject(project);
-//	for(location <- m3project)
-//		volume += calcVolume(location);
-//	return volume;
-//}
-
 public int calcTotalVolume(set[loc] locations) {
 	int volume = 0;
 	for(location <- locations) 
@@ -51,9 +42,6 @@ public int calcTotalVolume(set[loc] locations) {
 	return volume;
 }
 
-public list[str] calcMethodVolume(loc location) {
-	
-}
 
 public tuple[list[int],list[loc]] calcIndividualVolume(set[loc] locations) {
 // Calculates the volume of code at each of the given locations (also works for methods).
@@ -69,12 +57,13 @@ public tuple[list[int],list[loc]] calcIndividualVolume(set[loc] locations) {
 	return <volumes, loclist>;
 }
 
+
 public int calcVolume(loc location){
     // remove white space
-    str file = replaceAll(readFile(location)," ","");
+    str file = removeUnwantedContent(readFile(location));
+    file = replaceAll(file," ","");
     file = replaceAll(file,"\t","");
     file += "\r\n";
-	//str file = removeUnwantedContent(readFile(location));
 	int n = 0;
 	int newline = 0;
  	for(int i <- [0 .. size(file)-1]){
@@ -82,29 +71,34 @@ public int calcVolume(loc location){
    			str line = substring(file,newline,i);
    			newline = i+2;
    			
-   			if(size(line)>0 && /\w/:=line[0]) {n+=1;
-   			}else{if(size(line)>1 && line[0] == "}" && /\w/:=line[1]) {n+=1;
-   				}
-			}
+   //			if(size(line)>0 && /\w/:=line[0]) {n+=1;
+   //			}else{if(size(line)>1 && line[0] == "}" && /\w/:=line[1]) {n+=1;
+   //				}
+			//}
 			
    //			if(size(line)>0 && /\w/:=line[0]) {n+=1; iprintln("ADDED "+line);
    //			}else{if(size(line)>1 && line[0] == "}" &&/\w/:=line[1]) {n+=1; iprintln("ADDED "+line);
 			//	}else{iprintln("NOT "+line);}
 			//}
+			
+   			//if(size(line)>1) n+=1;
+
+			if(size(line)>1) {n+=1; iprintln("ADDED "+line);
+			}else{iprintln("NOT "+line);}
+			
 		}
 	}
-	if(newline == 0) n = 1;
 	return n;
 }
 
 
 //src: https://stackoverflow.com/questions/40257662/how-to-remove-whitespace-from-a-string-in-rascal
 public str removeUnwantedContent(str content) {
-// doesnt really work yet
 //19/11: Fixed, removed whitespace, left comments
 	return visit (content) { 
+		case /\/\*[\s\S]*?\*\// => "" // remove multi line comments
 		case /\/\/.*/ => "" //remove single comments
-		case /\/\*.*?\*\//s => "" // remove multi line comments
+		//case /\/\*[\s\S]*?\*\/|\/\/.*/ => "" // Rocco's suggestion
 	}
 }
 
