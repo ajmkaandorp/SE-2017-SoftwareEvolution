@@ -37,21 +37,26 @@ public int calcDuplication(list[loc] methods) {
 public int getDuplicateLines(list[loc] methods) {
 
 	list[lrel[loc, int, str]] codeBlocks = [];
-	lrel[loc, int, str] duplicates = [];
-	int i = 0;
-	
+	lrel[loc, int, str] duplicateLines = [];
+	int i = 0; 
+	bool j = false;
 	//foreach method in the list of methods
 	for(method <- methods) {
 		list[str] lines = calcVolume(method);
 		println(<size(lines)	>);
+		list[str] lines = calcVolumeMethod(method);
 		//if the method has less than 6 lines of actual code, skip it
-		if(size(lines) < 6) {
+		int methodSize = size(lines);
+		if(methodSize < 6) {
 			continue;
 		}
-		int i = i + 1;
-		println("<i>");
+		lrel[loc, int, str] codeLines = zip([method | _ <- upTill(methodSize)], index(lines), lines);
+		codeBlocks += [codeLines];
+		
 	}
 	
-	return i;
+	println(<codeBlocks>);
+	
+	return 1;
 }
 
