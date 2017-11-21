@@ -7,10 +7,29 @@ import Set;
 import lang::java::m3::Core;
 import lang::java::jdt::m3::Core;
 
-public list[int] calcComplexity(loc project){
+public str calcCCScore(list[int] riskScores, int tot){
+	if(riskScores[1] < tot/4. && riskScores[2]==0 && riskScores[3]==0) return "++";
+	if(riskScores[1] < tot/10.*3 && riskScores[2] < tot/20. && riskScores[3]==0) return "+";
+	if(riskScores[1] < tot/10.*4 && riskScores[2] < tot/10. && riskScores[3]==0) return "o";
+	if(riskScores[1] < tot/10.*5 && riskScores[2] < tot/20.*3 && riskScores[3] < tot/20.) return "-";
+	return "--";
+}
+
+public list[int] calcCCRiskScores(list[int] complexities){
+	list[int] riskScores =[0,0,0,0]; 
+	for(complexity <- complexities){
+		if(complexity < 11) riskScores[0] += 1;
+		if(10 < complexity && complexity < 21) riskScores[1] += 1;
+		if(20 < complexity && complexity < 51) riskScores[2] += 1;
+		if(complexity > 50) riskScores[3] += 1;
+	}
+	return riskScores;
+}
+
+public list[int] calcComplexity(set[loc] m3methods){
 // Spits out a list with the cyclomatic complexity of every method in the given project.
-	M3 m3project = createM3FromEclipseProject(project);
-	m3methods =  methods(m3project);
+	//M3 m3project = createM3FromEclipseProject(project);
+	//m3methods =  methods(m3project);
 	incrementer = 0;
 	list[int] ifsPerMethod = [];
 	for(oneMethod <- m3methods){

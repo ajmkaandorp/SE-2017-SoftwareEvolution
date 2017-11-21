@@ -8,6 +8,7 @@ import Set;
 //importing metrics
 import metrics::vol;
 import metrics::dupl;
+import metrics::uCompl;
 
 import lang::java::m3::Core;
 import lang::java::jdt::m3::Core;
@@ -28,7 +29,7 @@ void main() {
 	println("Starting SIG test at: " + printTime(now(), "HH:mm:ss"));
 	
 	// get the m3 model
-	loc projectLocation = getProject(1);
+	loc projectLocation = getProject(2);
 	M3 model = getM3Model(projectLocation);
 	
 	// get the AST model
@@ -54,6 +55,8 @@ void main() {
 	println("Calculating Unit Size at: " + printTime(now(), "HH:mm:ss"));
 	
 	println("Calculating Unit Complexity at: " + printTime(now(), "HH:mm:ss"));
+	println(calcCCRiskScores(calcComplexity(methods(model))));
+	println(calcCCScore(calcCCRiskScores(calcComplexity(methods(model))),size(methods(model))));
 	
 	println("------------------------------------------------------------------------");
 	println("Calculating Duplication at: " + printTime(now(), "HH:mm:ss"));

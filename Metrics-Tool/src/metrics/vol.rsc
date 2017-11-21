@@ -56,7 +56,7 @@ public tuple[list[int],list[loc]] calcIndividualVolume(set[loc] locations) {
 	//int n = 0;  //for diagnostics
 	list[loc] loclist = [];
 	for(location <- locations){
-		//if(n==416) iprintln(location);  //also diagnostics
+		//if(n==0) iprintln(location);  //also diagnostics
 		//n+=1;  //for the same diagnostics as before
 		volumes += [calcVolume(location)];
 		loclist += location;
@@ -76,9 +76,16 @@ public int calcVolume(loc location){
   		if(file[i]+file[i+1] =="\r\n"){
    			str line = substring(file,newline,i);
    			newline = i+2;
-   			if(size(line)>1 && /\w/:=line[0]) n+=1;
-			//if(size(line)>1 && /\w/:=line[0]){ n+=1; iprintln(line+" ADDED");
-			//}else{iprintln(line+" NOT");}
+   			
+   			if(size(line)>0 && /\w/:=line[0]) {n+=1;
+   			}else{if(size(line)>1 && line[0] == "}" && /\w/:=line[1]) {n+=1;
+   				}
+			}
+			
+   //			if(size(line)>0 && /\w/:=line[0]) {n+=1; iprintln("ADDED "+line);
+   //			}else{if(size(line)>1 && line[0] == "}" &&/\w/:=line[1]) {n+=1; iprintln("ADDED "+line);
+			//	}else{iprintln("NOT "+line);}
+			//}
 		}
 	}
 	if(newline == 0) n = 1;

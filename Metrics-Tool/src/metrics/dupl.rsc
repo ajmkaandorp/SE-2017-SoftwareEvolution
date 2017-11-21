@@ -42,7 +42,7 @@ public int getDuplicateLines(list[loc] methods) {
 	
 	//foreach method in the list of methods
 	for(method <- methods) {
-		list[str] lines = calcVolumeMethod(method);
+		list[str] lines = calcVolume(method);
 		println(<size(lines)	>);
 		//if the method has less than 6 lines of actual code, skip it
 		if(size(lines) < 6) {
