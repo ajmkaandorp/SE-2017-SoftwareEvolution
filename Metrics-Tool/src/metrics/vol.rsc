@@ -56,6 +56,17 @@ public list[int] calcIndividualVolume(set[loc] locations) {
 	return volumes;
 }
 
+public list[str] calcVolumeMethod(loc location) {
+    str filteredContent = removeUnwantedStrings(readFile(location));
+    filteredContent = removeUnwantedComments(filteredContent);
+    filteredContent = replaceAll(filteredContent," ","");
+    filteredContent = replaceAll(filteredContent,"\t","");
+    filteredContent += "\r\n";
+    
+	return split("\n", filteredContent);
+}
+
+
 public int calcVolume(loc location){
     // remove white space
     str file = removeUnwantedStrings(readFile(location));

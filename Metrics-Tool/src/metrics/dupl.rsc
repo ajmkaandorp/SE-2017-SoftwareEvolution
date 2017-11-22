@@ -3,6 +3,7 @@ module metrics::dupl
 import lang::java::jdt::m3::Core;
 import String;
 import IO;
+import Set;
 import List;
 import metrics::vol;
 
@@ -12,8 +13,7 @@ import metrics::vol;
  			that is seen in more than one cases in code blocks of 6
  			lines or more. We start by filtering out all the methods that
  			are shorter than 6 lines in the various classes within the
- 			project. After this we ignore leading spaces and compare these
- 			lines to one another to find duplicates.
+ 			project. 
  */
 
 public str getDuplicationScore(int percentage) {
@@ -29,34 +29,62 @@ public str getDuplicationScore(int percentage) {
 	return "--";
 }
 
-public int calcDuplication(list[loc] methods) {
-	return getDuplicateLines(methods);
-}
 
+public list[lrel[str, loc]] getCodeBlocks(list[loc] methods) {
 
-public int getDuplicateLines(list[loc] methods) {
-
-	list[lrel[loc, int, str]] codeBlocks = [];
-	lrel[loc, int, str] duplicateLines = [];
-	int i = 0; 
-	bool j = false;
+	list[lrel[str, loc]] codeBlocks = [];
 	//foreach method in the list of methods
 	for(method <- methods) {
-		list[str] lines = calcVolume(method);
-		println(<size(lines)	>);
+		
+		//get lines of method
 		list[str] lines = calcVolumeMethod(method);
+		
 		//if the method has less than 6 lines of actual code, skip it
 		int methodSize = size(lines);
 		if(methodSize < 6) {
 			continue;
 		}
-		lrel[loc, int, str] codeLines = zip([method | _ <- upTill(methodSize)], index(lines), lines);
-		codeBlocks += [codeLines];
 		
+		//create a list of tuples containing, the line, and it's method
+		lrel[str, loc] codeLines = zip(lines, [method | _ <- upTill(methodSize)]);
+		//add this list to a parent list
+		codeBlocks += [[a,b,c,d,e,f] | [_*,a,b,c,d,e,f,_*] := codeLines];
 	}
-	
-	println(<codeBlocks>);
-	
-	return 1;
+	return codeBlocks;
 }
+
+public int calcDuplication(list[loc] methods) {
+	//A set of tuples in line which will represent the duplicates
+	set[tuple[str,loc]] duplicates = {};
+	//A map which refers to the unique lines handled
+	map[list[str], lrel[str, loc]] handled = ();	
+	//The blocks of code representing methods larger than 6 lines
+	list[lrel[str, loc]] codeBlocks = getCodeBlocks(methods);
+		
+	//For each codeblock in the project
+	for(block <- codeBlocks) {
+		// get a list of strings representing the actual lines of code for each block
+		list[str] lines = [line | <line,_> <- block];
+		println("lines: <lines>");
+		//if these lines are in the handled lines, so the collection of lines already seen in the project
+		if(lines in handled) {
+			//we add the codelines with data(tuple) to the duplicates set
+			duplicates += {codeLine | codeLine <- block};
+			
+			
+			duplicates += {initCodeLine | initCodeLine <- handled[lines]};
+		} else {
+			handled[lines] = block;
+		}
+	}	
+	
+	
+	return size(duplicates);
+}
+
+
+
+
+
+
 

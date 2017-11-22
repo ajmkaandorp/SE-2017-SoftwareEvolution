@@ -45,28 +45,36 @@ void main() {
 	//list[loc] classes = getClasses(model);
 	//println("--There are <amountOfClasses(classes)> classes in this project.");
 	
-	//Volume
-	//println("------------------------------------------------------------------------");
-	//println("Started Calculating Volume at: " + printTime(now(), "HH:mm:ss"));
-	//int volume = calcTotalVolume(files(model));
-	//println("	The total number of lines: <volume> gives this project a score of <getVolumeScore(volume)>");
-
+	println("------------------------------------------------------------------------");
+	println("Calculating Volume at: " + printTime(now(), "HH:mm:ss"));
+	int volume = calcTotalVolume(files(model));
+	str volumeScore = getVolumeScore(volume);
+	println("The total number of lines: <volume> gives this project a score of <volumeScore>");
+	println("Ended Calculating Volume at: " + printTime(now(), "HH:mm:ss"));
+	
 	//Unit volume
-	//println("------------------------------------------------------------------------");
-	//println("Calculating Unit Size at: " + printTime(now(), "HH:mm:ss"));
-	//int unitVolume = calcIndividualVolumes(methods(model));
-	//println("	The method volumes give this project a score of <getUnitVolumeScores(volume)>");
+	println("------------------------------------------------------------------------");
+	println("Calculating Unit Size at: " + printTime(now(), "HH:mm:ss"));
+	list[int] unitVolume = calcIndividualVolume(methods(model));
+	println("The method volumes give this project a score of <getUnitVolumeScores(unitVolume)>");
 		
 	//Unit complexity
-	//println("------------------------------------------------------------------------");
-	//println("Calculating Unit Complexity at: " + printTime(now(), "HH:mm:ss"));
-	//complexities = calcComplexity(methods(model));
-	//println("	The method complexity score gives this project a score of <calcCCScore(complexities)>");
+	println("------------------------------------------------------------------------");
+	println("Calculating Unit Complexity at: " + printTime(now(), "HH:mm:ss"));
+	complexities = calcComplexity(methods(model));
+	println("	The method complexity score gives this project a score of <calcCCScore(complexities)>");
 	
 	println("------------------------------------------------------------------------");
 	println("Calculating Duplication at: " + printTime(now(), "HH:mm:ss"));
 	int duplication = calcDuplication(getMethods(model));
 	println("Method blocks : <duplication>");
+	real percentage = calculatePercentage(duplication, volume);
+	println("percentage: <percentage>");
+	str duplicationScore = getDuplicationScore(toInt(percentage));
+	println("Duplication score: <duplicationScore>");
+	println("Ended Calculating Duplication at: " + printTime(now(), "HH:mm:ss"));
+	
+	
 	
 	println("SIG test ended at: " + printTime(now(), "HH:mm:ss"));
 	
