@@ -48,33 +48,27 @@ void main() {
 	//Volume
 	//println("------------------------------------------------------------------------");
 	//println("Started Calculating Volume at: " + printTime(now(), "HH:mm:ss"));
-	//int volume = calcVolume2(classes);
+	//int volume = calcTotalVolume(files(model));
 	//println("	The total number of lines: <volume> gives this project a score of <getVolumeScore(volume)>");
-	//println("Ended Calculating Volume at: " + printTime(now(), "HH:mm:ss"));
+
+	//Unit volume
 	//println("------------------------------------------------------------------------");
-	
-	
-	
-	
-	println("Calculating Unit Size at: " + printTime(now(), "HH:mm:ss"));
-	
-	println("Calculating Unit Complexity at: " + printTime(now(), "HH:mm:ss"));
-	println(calcCCRiskScores(calcComplexity(methods(model))));
-	println(calcCCScore(calcCCRiskScores(calcComplexity(methods(model))),size(methods(model))));
 	//println("Calculating Unit Size at: " + printTime(now(), "HH:mm:ss"));
-	//
+	//int unitVolume = calcIndividualVolumes(methods(model));
+	//println("	The method volumes give this project a score of <getUnitVolumeScores(volume)>");
+		
+	//Unit complexity
+	//println("------------------------------------------------------------------------");
 	//println("Calculating Unit Complexity at: " + printTime(now(), "HH:mm:ss"));
-	//list[int] complexityList = calcComplexity(getProject());
-	//for(complexity <- complexityList)
-	//{
-	//	println(<complexity>);
-	//}
+	//complexities = calcComplexity(methods(model));
+	//println("	The method complexity score gives this project a score of <calcCCScore(complexities)>");
 	
 	println("------------------------------------------------------------------------");
 	println("Calculating Duplication at: " + printTime(now(), "HH:mm:ss"));
 	int duplication = calcDuplication(getMethods(model));
 	println("Method blocks : <duplication>");
-	println("------------------------------------------------------------------------");
+	
+	println("SIG test ended at: " + printTime(now(), "HH:mm:ss"));
 	
 }
 
