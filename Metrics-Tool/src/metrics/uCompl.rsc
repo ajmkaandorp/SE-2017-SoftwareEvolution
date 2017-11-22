@@ -7,7 +7,9 @@ import Set;
 import lang::java::m3::Core;
 import lang::java::jdt::m3::Core;
 
-public str calcCCScore(list[int] riskScores, int tot){
+public str calcCCScore(list[int] complexities){
+	riskScores = calcCCRiskScores(complexities);
+	int tot = sum(riskScores);
 	if(riskScores[1] < tot/4. && riskScores[2]==0 && riskScores[3]==0) return "++";
 	if(riskScores[1] < tot/10.*3 && riskScores[2] < tot/20. && riskScores[3]==0) return "+";
 	if(riskScores[1] < tot/10.*4 && riskScores[2] < tot/10. && riskScores[3]==0) return "o";
