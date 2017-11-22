@@ -18,6 +18,8 @@ import lang::java::m3::Core;
 import lang::java::jdt::m3::Core;
 import lang::java::jdt::m3::AST;
 
+import util::Math;
+
 public loc getProject(int number)
 {
 	switch (number) {
@@ -45,6 +47,7 @@ void main() {
 	//list[loc] classes = getClasses(model);
 	//println("--There are <amountOfClasses(classes)> classes in this project.");
 	
+<<<<<<< HEAD
 	//Volume
 	//println("------------------------------------------------------------------------");
 	//println("Started Calculating Volume at: " + printTime(now(), "HH:mm:ss"));
@@ -69,6 +72,62 @@ void main() {
 	//int duplication = calcDuplication(getMethods(model));
 	//println("Method blocks : <duplication>");
 	//println("------------------------------------------------------------------------");
+=======
+	////Volume
+	println("------------------------------------------------------------------------");
+	println("Calculating Volume at: " + printTime(now(), "HH:mm:ss"));
+	int volume = calcTotalVolume(files(model));
+	str volumeScore = getVolumeScore(volume);
+	println("The total number of lines: <volume> gives this project a score of <volumeScore>");
+	println("Ended Calculating Volume at: " + printTime(now(), "HH:mm:ss"));
+	//
+	////Unit volume
+	println("------------------------------------------------------------------------");
+	println("Calculating Unit Size at: " + printTime(now(), "HH:mm:ss"));
+	list[int] unitVolume = calcIndividualVolume(methods(model));
+	println(getUnitVolumesHist(unitVolume));
+	str unitVolumeScore = getUnitVolumeScores(unitVolume);
+	println("The method volumes give this project a score of <unitVolumeScore>");
+		
+	////Unit complexity
+	println("------------------------------------------------------------------------");
+	println("Calculating Unit Complexity at: " + printTime(now(), "HH:mm:ss"));
+	complexities = calcComplexity(dec);
+	
+	println(calcCCRiskScores(complexities));
+	
+	str unitComplexityScore = calcCCScore(complexities);
+	println("The method complexity score gives this project a score of <unitComplexityScore>");
+	
+	//Duplication
+	println("------------------------------------------------------------------------");
+	println("Calculating Duplication at: " + printTime(now(), "HH:mm:ss"));
+	int duplication = calcDuplication(getMethods(model));
+	println("Method blocks : <duplication>");
+	real percentage = calculatePercentage(duplication, volume);
+	println("percentage: <percentage>");
+	str duplicationScore = getDuplicationScore(unscaled(percentage));
+	println("Duplication score: <duplicationScore>");
+	println("Ended Calculating Duplication at: " + printTime(now(), "HH:mm:ss"));
+
+	//Overall score
+	println("------------------------------------------------------------------------");
+	println("Calculating overall score  at: " + printTime(now(), "HH:mm:ss"));
+	// get value of each score
+	real volumeRank = scoreToRank(volumeScore);
+	real unitVolumeRank = scoreToRank(unitVolumeScore);
+	real unitComplexityRank = scoreToRank(unitComplexityScore);
+	real duplicationRank = scoreToRank(duplicationScore);
+	
+	str adaptability = rankToScore(volumeRank + duplicationRank + unitVolumeRank);
+	str changeability = rankToScore(unitComplexityRank + duplicationRank);
+	str testability = rankToScore(unitComplexityRank + unitVolumeRank);
+	
+	println("Adaptability: <adaptability>");
+	println("Changeability: <changeability>");
+	println("testability: <testability>");
+
+>>>>>>> fca4652d42db7f9656d1048b919dbd907b558b2b
 	println("SIG test ended at: " + printTime(now(), "HH:mm:ss"));
 	
 }
