@@ -10,10 +10,28 @@ import metrics::vol;
 /**
  * Metric: Duplication
  * Summary: Code duplication is defined in this project as all code
- 			that is seen in more than one cases in code blocks of 6
+ 			that is seen in more than one cases in code fragments of 6
  			lines or more. We start by filtering out all the methods that
  			are shorter than 6 lines in the various classes within the
  			project. 
+ 			
+ 	
+ */
+ 
+ 
+ //Document guidelines:
+ //Document has alternatives, has design decisions is measurable etc
+ //Check the validity
+ //Find a way to check your code
+ // Make claims, test your claims
+ // Make an evaluation
+ 
+ 
+ /*
+ The first thing that needs to happen for the detection of duplicates in 
+ the project, is that these fragments need to be formed including both the lines of code
+ that are in the method as well as the corresponding method location.
+  
  */
 
 public str getDuplicationScore(int percentage) {
@@ -30,9 +48,8 @@ public str getDuplicationScore(int percentage) {
 }
 
 
-public list[lrel[str, loc]] getCodeBlocks(list[loc] methods) {
-
-	list[lrel[str, loc]] codeBlocks = [];
+public list[lrel[str, loc]] getCodeFragments(list[loc] methods) {
+	list[lrel[str, loc]] codeFragments = [];
 	//foreach method in the list of methods
 	for(method <- methods) {
 		
@@ -45,12 +62,12 @@ public list[lrel[str, loc]] getCodeBlocks(list[loc] methods) {
 			continue;
 		}
 		
-		//create a list of tuples containing, the line, and it's method
+		//create a list of tuples containing, the lines, and it's method location
 		lrel[str, loc] codeLines = zip(lines, [method | _ <- upTill(methodSize)]);
-		//add this list to a parent list
-		codeBlocks += [[a,b,c,d,e,f] | [_*,a,b,c,d,e,f,_*] := codeLines];
+		//add this list the parent list, matching
+		codeFragments += [[l1,l2,l3,l4,l5,l6] | [_*,l1,l2,l3,l4,l5,l6,_*] := codeLines];
 	}
-	return codeBlocks;
+	return codeFragments;
 }
 
 public int calcDuplication(list[loc] methods) {
@@ -58,27 +75,25 @@ public int calcDuplication(list[loc] methods) {
 	set[tuple[str,loc]] duplicates = {};
 	//A map which refers to the unique lines handled
 	map[list[str], lrel[str, loc]] handled = ();	
-	//The blocks of code representing methods larger than 6 lines
-	list[lrel[str, loc]] codeBlocks = getCodeBlocks(methods);
+	//The fragments of code representing methods larger than 6 lines
+	list[lrel[str, loc]] codeFragments = getCodeFragments(methods);
 		
-	//For each codeblock in the project
-	for(block <- codeBlocks) {
-		// get a list of strings representing the actual lines of code for each block
-		list[str] lines = [line | <line,_> <- block];
-		println("lines: <lines>");
+	//For each codeFragment in the project
+	for(codeFragment <- codeFragments) {
+		// get a list of strings representing the actual lines of code for each fragment
+		list[str] lines = [line | <line,_> <- codeFragment];
 		//if these lines are in the handled lines, so the collection of lines already seen in the project
 		if(lines in handled) {
 			//we add the codelines with data(tuple) to the duplicates set
-			duplicates += {codeLine | codeLine <- block};
+			duplicates += {codeLine | codeLine <- codeFragment};
 			
 			
-			duplicates += {initCodeLine | initCodeLine <- handled[lines]};
+			
 		} else {
-			handled[lines] = block;
+			// if the lines are not in the handled lines and thus are unique, we add these to them
+			handled[lines] = codeFragment;
 		}
 	}	
-	
-	
 	return size(duplicates);
 }
 
