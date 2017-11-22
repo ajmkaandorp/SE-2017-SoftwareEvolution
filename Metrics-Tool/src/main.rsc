@@ -48,33 +48,28 @@ void main() {
 	//Volume
 	//println("------------------------------------------------------------------------");
 	//println("Started Calculating Volume at: " + printTime(now(), "HH:mm:ss"));
-	//int volume = calcVolume2(classes);
+	//int volume = calcTotalVolume(files(model));
 	//println("	The total number of lines: <volume> gives this project a score of <getVolumeScore(volume)>");
-	//println("Ended Calculating Volume at: " + printTime(now(), "HH:mm:ss"));
-	//println("------------------------------------------------------------------------");
 	
+	//Unit Volume
+	println("------------------------------------------------------------------------");
+	println("Started Calculating Unit Volume at: " + printTime(now(), "HH:mm:ss"));
+	list[int] unitVolume = calcIndividualVolume(files(model));
+	println("	The total number of lines: <unitVolume> gives this project a score of <getUnitVolumeScore(unitVolume)>");
 	
-	
-	
-	println("Calculating Unit Size at: " + printTime(now(), "HH:mm:ss"));
-	
+	//Unit Complexity
+	println("------------------------------------------------------------------------");
 	println("Calculating Unit Complexity at: " + printTime(now(), "HH:mm:ss"));
-	println(calcCCRiskScores(calcComplexity(methods(model))));
-	println(calcCCScore(calcCCRiskScores(calcComplexity(methods(model))),size(methods(model))));
-	//println("Calculating Unit Size at: " + printTime(now(), "HH:mm:ss"));
-	//
-	//println("Calculating Unit Complexity at: " + printTime(now(), "HH:mm:ss"));
-	//list[int] complexityList = calcComplexity(getProject());
-	//for(complexity <- complexityList)
-	//{
-	//	println(<complexity>);
-	//}
+	list[int] complexities = calcComplexity(methods(model));
+	println("	The total number of lines: <complexities> gives this project a score of <calcCCScore(complexities)>");
 	
-	println("------------------------------------------------------------------------");
-	println("Calculating Duplication at: " + printTime(now(), "HH:mm:ss"));
-	int duplication = calcDuplication(getMethods(model));
-	println("Method blocks : <duplication>");
-	println("------------------------------------------------------------------------");
+	//Duplication
+	//println("------------------------------------------------------------------------");
+	//println("Calculating Duplication at: " + printTime(now(), "HH:mm:ss"));
+	//int duplication = calcDuplication(getMethods(model));
+	//println("Method blocks : <duplication>");
+	//println("------------------------------------------------------------------------");
+	println("SIG test ended at: " + printTime(now(), "HH:mm:ss"));
 	
 }
 
@@ -96,27 +91,12 @@ public int amountOfMethods(list[loc] methods) {
  	return size(methods);
 }
 
-
-
 //get the contents of a file
 public str fileContent(loc file) {
 	return readFile(file);
 }
 
-//remove comments from the contents of a file
-public str removeComments(str text) {
-	
-	return replaceAll(text, "//.*|/\\*((.|\\n)(?!=*/))+\\*/", "");
-}
-
-
-
-//public list[str] getFileContent(loc file) {
-//	content = readFile(file);
-//}
-
 // Create a M3 model
 public M3 getM3Model(loc location) {
 	return createM3FromEclipseProject(location); 
 }
-

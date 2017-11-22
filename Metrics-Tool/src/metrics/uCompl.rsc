@@ -7,7 +7,9 @@ import Set;
 import lang::java::m3::Core;
 import lang::java::jdt::m3::Core;
 
-public str calcCCScore(list[int] riskScores, int tot){
+public str calcCCScore(list[int] complexities){
+	riskScores = calcCCRiskScores(complexities);
+	tot = sum(riskScores);
 	if(riskScores[1] < tot/4. && riskScores[2]==0 && riskScores[3]==0) return "++";
 	if(riskScores[1] < tot/10.*3 && riskScores[2] < tot/20. && riskScores[3]==0) return "+";
 	if(riskScores[1] < tot/10.*4 && riskScores[2] < tot/10. && riskScores[3]==0) return "o";
@@ -16,8 +18,9 @@ public str calcCCScore(list[int] riskScores, int tot){
 }
 
 public list[int] calcCCRiskScores(list[int] complexities){
+// Bins the calculated CC scores to a risk catagory list.
 	list[int] riskScores =[0,0,0,0]; 
-	for(complexity <- complexities){
+	for(complexity <- complexities){ // Why not use switch here?
 		if(complexity < 11) riskScores[0] += 1;
 		if(10 < complexity && complexity < 21) riskScores[1] += 1;
 		if(20 < complexity && complexity < 51) riskScores[2] += 1;
@@ -28,9 +31,7 @@ public list[int] calcCCRiskScores(list[int] complexities){
 
 public list[int] calcComplexity(set[loc] m3methods){
 // Spits out a list with the cyclomatic complexity of every method in the given project.
-	//M3 m3project = createM3FromEclipseProject(project);
-	//m3methods =  methods(m3project);
-	incrementer = 0;
+	int incrementer = 0;
 	list[int] ifsPerMethod = [];
 	for(oneMethod <- m3methods){
 		//incrementer +=1; // Diagnostics code, to pick out specific methods and analyze it more closely 
