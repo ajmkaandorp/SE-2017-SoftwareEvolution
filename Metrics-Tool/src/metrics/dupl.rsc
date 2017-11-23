@@ -96,10 +96,3 @@ public int calcDuplication(list[loc] methods) {
 	}	
 	return size(duplicates);
 }
-
-
-
-
-
-
-

@@ -6,12 +6,10 @@ import String;
 import DateTime;
 import Set;
 
-//import metrics
 import metrics::vol;
 import metrics::dupl;
 import metrics::uCompl;
 import metrics::uSize;
-//import scores
 import scores;
 
 import lang::java::m3::Core;
@@ -19,6 +17,7 @@ import lang::java::jdt::m3::Core;
 import lang::java::jdt::m3::AST;
 
 import util::Math;
+
 
 public loc getProject(int number)
 {
@@ -41,47 +40,15 @@ void main() {
 	// get the AST model
 	set[Declaration] dec = createAstsFromEclipseProject(projectLocation, false);
 	
-	//assessJavaFile(readJavaFile());
-	
-	//get classes
-	//list[loc] classes = getClasses(model);
-	//println("--There are <amountOfClasses(classes)> classes in this project.");
-	
-<<<<<<< HEAD
 	//Volume
-	//println("------------------------------------------------------------------------");
-	//println("Started Calculating Volume at: " + printTime(now(), "HH:mm:ss"));
-	//int volume = calcTotalVolume(files(model));
-	//println("	The total number of lines: <volume> gives this project a score of <getVolumeScore(volume)>");
-	
-	//Unit Volume
-	println("------------------------------------------------------------------------");
-	println("Started Calculating Unit Volume at: " + printTime(now(), "HH:mm:ss"));
-	list[int] unitVolume = calcIndividualVolume(files(model));
-	println("	The total number of lines: <unitVolume> gives this project a score of <getUnitVolumeScore(unitVolume)>");
-	
-	//Unit Complexity
-	println("------------------------------------------------------------------------");
-	println("Calculating Unit Complexity at: " + printTime(now(), "HH:mm:ss"));
-	list[int] complexities = calcComplexity(methods(model));
-	println("	The total number of lines: <complexities> gives this project a score of <calcCCScore(complexities)>");
-	
-	//Duplication
-	//println("------------------------------------------------------------------------");
-	//println("Calculating Duplication at: " + printTime(now(), "HH:mm:ss"));
-	//int duplication = calcDuplication(getMethods(model));
-	//println("Method blocks : <duplication>");
-	//println("------------------------------------------------------------------------");
-=======
-	////Volume
 	println("------------------------------------------------------------------------");
 	println("Calculating Volume at: " + printTime(now(), "HH:mm:ss"));
 	int volume = calcTotalVolume(files(model));
 	str volumeScore = getVolumeScore(volume);
 	println("The total number of lines: <volume> gives this project a score of <volumeScore>");
 	println("Ended Calculating Volume at: " + printTime(now(), "HH:mm:ss"));
-	//
-	////Unit volume
+	
+	//Unit volume
 	println("------------------------------------------------------------------------");
 	println("Calculating Unit Size at: " + printTime(now(), "HH:mm:ss"));
 	list[int] unitVolume = calcIndividualVolume(methods(model));
@@ -89,13 +56,11 @@ void main() {
 	str unitVolumeScore = getUnitVolumeScores(unitVolume);
 	println("The method volumes give this project a score of <unitVolumeScore>");
 		
-	////Unit complexity
+	//Unit complexity
 	println("------------------------------------------------------------------------");
 	println("Calculating Unit Complexity at: " + printTime(now(), "HH:mm:ss"));
 	complexities = calcComplexity(dec);
-	
 	println(calcCCRiskScores(complexities));
-	
 	str unitComplexityScore = calcCCScore(complexities);
 	println("The method complexity score gives this project a score of <unitComplexityScore>");
 	
@@ -127,7 +92,6 @@ void main() {
 	println("Changeability: <changeability>");
 	println("testability: <testability>");
 
->>>>>>> fca4652d42db7f9656d1048b919dbd907b558b2b
 	println("SIG test ended at: " + printTime(now(), "HH:mm:ss"));
 	
 }

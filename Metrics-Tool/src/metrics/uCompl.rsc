@@ -10,11 +10,7 @@ import lang::java::jdt::m3::AST;
 
 public str calcCCScore(list[int] complexities){
 	riskScores = calcCCRiskScores(complexities);
-<<<<<<< HEAD
-	tot = sum(riskScores);
-=======
 	int tot = sum(riskScores);
->>>>>>> fca4652d42db7f9656d1048b919dbd907b558b2b
 	if(riskScores[1] < tot/4. && riskScores[2]==0 && riskScores[3]==0) return "++";
 	if(riskScores[1] < tot/10.*3 && riskScores[2] < tot/20. && riskScores[3]==0) return "+";
 	if(riskScores[1] < tot/10.*4 && riskScores[2] < tot/10. && riskScores[3]==0) return "o";
@@ -36,31 +32,12 @@ public list[int] calcCCRiskScores(list[int] complexities){
 
 public list[int] calcComplexity(set[Declaration] ast){
 // Spits out a list with the cyclomatic complexity of every method in the given project.
-<<<<<<< HEAD
-	int incrementer = 0;
-=======
-	//M3 m3project = createM3FromEclipseProject(project);
-	//m3methods =  methods(m3project);
-	incrementer = 0;
 	
-	//1ist[int] ifsPerMethod = [calcCC(x) | x <- ast, x is method];
-	
->>>>>>> fca4652d42db7f9656d1048b919dbd907b558b2b
 	list[int] ifsPerMethod = [];
 	x = {m | /Declaration m := ast, m is method};
 	for(item <- x){
-	
-	//for(item <- ast, item is method) {
 		ifsPerMethod += [calcCC(item)];
 	}
-	
-	
-	//for(s := ast, s is method){
-	////for(n<-x)
-	//	//incrementer +=1; // Diagnostics code, to pick out specific methods and analyze it more closely 
-	//	//if(incrementer == 25) ifsPerMethod += countIfs(split("\r\n",readFile(oneMethod)));
-	//	ifsPerMethod = ifsPerMethod + calcCC(s);
-	//}	
 	return ifsPerMethod;
 }
 
@@ -86,13 +63,8 @@ public int calcCC(Declaration impl) {
 
 //public list[int] calcComplexity(set[loc] m3methods){
 //// Spits out a list with the cyclomatic complexity of every method in the given project.
-//	//M3 m3project = createM3FromEclipseProject(project);
-//	//m3methods =  methods(m3project);
-//	incrementer = 0;
 //	list[int] ifsPerMethod = [];
 //	for(oneMethod <- m3methods){
-//		//incrementer +=1; // Diagnostics code, to pick out specific methods and analyze it more closely 
-//		//if(incrementer == 25) ifsPerMethod += countIfs(split("\r\n",readFile(oneMethod)));
 //		ifsPerMethod += countIfs(split("\r\n",readFile(oneMethod)));
 //	}	
 //	return ifsPerMethod;
