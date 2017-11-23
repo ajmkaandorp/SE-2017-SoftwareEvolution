@@ -42,7 +42,7 @@ public list[int] calcComplexity(set[Declaration] ast){
 }
 
 public int calcCC(Declaration impl) {
-
+// source: https://stackoverflow.com/questions/40064886/obtaining-cyclomatic-complexity
     int result = 1;
     visit (impl) {
         case \if(_,_) : result += 1;

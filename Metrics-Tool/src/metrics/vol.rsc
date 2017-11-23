@@ -45,11 +45,12 @@ public list[int] getUnitVolumesHist(list[int] unitVolumes){
 }
 
 public list[str] calcVolumeMethod(loc location) {
+	// Replaces strings with dummy strings, removes comments and white space.
     str filteredContent = removeUnwantedStrings(readFile(location));
     filteredContent = removeUnwantedComments(filteredContent);
     filteredContent = replaceAll(filteredContent," ","");
     filteredContent = replaceAll(filteredContent,"\t","");
-    filteredContent += "\r\n";
+    filteredContent += "\r\n"; // To also count the last line, in case a \r\n would be missing there.
 	return split("\n", filteredContent);
 }
 
@@ -79,8 +80,8 @@ public int calcVolume(loc location){
     file = removeUnwantedComments(file);
     file = replaceAll(file," ","");
     file = replaceAll(file,"\t","");
-    
     file += "\r\n"; // To also count the last line, in case a \r\n would be missing there.
+	
 	int n = 0;
 	int newline = 0;
 	// Counts line length for every line by looking at the distance between \r\n's. If the line is not
