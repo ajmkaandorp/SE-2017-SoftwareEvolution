@@ -77,21 +77,27 @@ void main() {
 
 	//Overall score
 	println("------------------------------------------------------------------------");
-	println("Calculating overall score  at: " + printTime(now(), "HH:mm:ss"));
+	println("Calculating scores  at: " + printTime(now(), "HH:mm:ss"));
 	// get value of each score
 	real volumeRank = scoreToRank(volumeScore);
 	real unitVolumeRank = scoreToRank(unitVolumeScore);
 	real unitComplexityRank = scoreToRank(unitComplexityScore);
 	real duplicationRank = scoreToRank(duplicationScore);
 	
-	str adaptability = rankToScore(volumeRank + duplicationRank + unitVolumeRank);
-	str changeability = rankToScore(unitComplexityRank + duplicationRank);
-	str testability = rankToScore(unitComplexityRank + unitVolumeRank);
+	real adaptability = volumeRank + duplicationRank + unitVolumeRank;
+	real changeability = unitComplexityRank + duplicationRank;
+	real testability = unitComplexityRank + unitVolumeRank;
 	
-	println("Adaptability: <adaptability>");
-	println("Changeability: <changeability>");
-	println("testability: <testability>");
-
+	str adaptabilityScore = rankToScore(adaptability);
+	str changeabilityScore = rankToScore(changeability);
+	str testabilityScore = rankToScore(testability);
+	
+	println("Adaptability: <adaptabilityScore>");
+	println("Changeability: <changeabilityScore>");
+	println("Testability: <testabilityScore>");
+	
+	println("Maintainability score: <rankToScore(adaptability + changeability + testability)>");
+	
 	println("SIG test ended at: " + printTime(now(), "HH:mm:ss"));
 	
 }

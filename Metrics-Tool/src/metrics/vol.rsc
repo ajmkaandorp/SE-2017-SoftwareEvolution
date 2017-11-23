@@ -57,8 +57,9 @@ public list[str] calcVolumeMethod(loc location) {
 
 public int calcTotalVolume(set[loc] locations) {
 	int volume = 0;
-		for(location <- locations) 
-		volume += calcVolume(location);
+		for(location <- locations) {
+			volume += calcVolume(location);
+		}
 	return volume;
 }
 

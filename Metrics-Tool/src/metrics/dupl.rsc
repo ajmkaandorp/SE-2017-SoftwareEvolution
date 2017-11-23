@@ -17,22 +17,6 @@ import metrics::vol;
  			
  	
  */
- 
- 
- //Document guidelines:
- //Document has alternatives, has design decisions is measurable etc
- //Check the validity
- //Find a way to check your code
- // Make claims, test your claims
- // Make an evaluation
- 
- 
- /*
- The first thing that needs to happen for the detection of duplicates in 
- the project, is that these fragments need to be formed including both the lines of code
- that are in the method as well as the corresponding method location.
-  
- */
 
 public str getDuplicationScore(int percentage) {
 	if(percentage <= 3) {
@@ -86,9 +70,6 @@ public int calcDuplication(list[loc] methods) {
 		if(lines in handled) {
 			//we add the codelines with data(tuple) to the duplicates set
 			duplicates += {codeLine | codeLine <- codeFragment};
-			
-			
-			
 		} else {
 			// if the lines are not in the handled lines and thus are unique, we add these to them
 			handled[lines] = codeFragment;
