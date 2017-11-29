@@ -9,6 +9,7 @@ import lang::java::jdt::m3::Core;
 import lang::java::jdt::m3::AST;
 
 public str calcCCScore(list[int] complexities){
+//Calculates the SIG score for the cyclomatic complexity metric, based on the given complexities
 	riskScores = calcCCRiskScores(complexities);
 	int tot = sum(riskScores);
 	if(riskScores[1] < tot/4. && riskScores[2]==0 && riskScores[3]==0) return "++";
@@ -43,6 +44,7 @@ public list[int] calcComplexity(set[Declaration] ast){
 
 public int calcCC(Declaration impl) {
 // source: https://stackoverflow.com/questions/40064886/obtaining-cyclomatic-complexity
+// Calculates the cyclomatic complexity of a given Declaration.
     int result = 1;
     visit (impl) {
         case \if(_,_) : result += 1;

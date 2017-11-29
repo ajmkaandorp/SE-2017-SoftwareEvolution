@@ -18,7 +18,6 @@ public str getVolumeScore(int amountLines) {
 	return "--";
 }
 
-
 public str getUnitVolumeScores(list[int] unitVolumes){
 // Calculates SIG scores for unit volumes.
 // Scores are based on https://docs.sonarqube.org/display/SONARQUBE45/SIG+Maintainability+Model+Plugin
@@ -90,22 +89,15 @@ public int calcVolume(loc location){
  	for(int i <- [0 .. size(file)-1]){
   		if(file[i]+file[i+1] =="\r\n"){
    			str line = substring(file,newline,i);
-   			newline = i+2;			
-   			if(size(line)>0) n+=1;
+   			newline = i+2;
    			
-			//if(size(line)>0) {n+=1; iprintln(toString([n])+"ADDED "+line); // For diagnostics
-			//}else{iprintln(toString([n])+"NOT "+line);}	
+   			if(size(line)>0) n+=1;
+
+			//if(size(line)>0) {n+=1; iprintln(toString([n])+"ADDED "+line);
+			//}else{iprintln(toString([n])+"NOT "+line);}
 		}
 	}
 	return n;
-}
-
-public str removeUnwantedStrings(str content) {
-// Removes string content, for if there's a "/*" or something on a line, so that removeUnwantedComments
-// no longer picks up on it.
-	return visit (content) { 
-		case /\".*?\"|\'.*?\'/ => "\"STRING\""
-	}
 }
 
 //src: https://stackoverflow.com/questions/40257662/how-to-remove-whitespace-from-a-string-in-rascal
@@ -113,5 +105,15 @@ public str removeUnwantedComments(str content) {
 // Removes all comments in a given string.
 	return visit (content) { 
 		case /\/\*[\s\S]*?\*\/|\/\/.*/ => "" // removes comments, partial thanks to Rocco
+	}
+}
+
+public str removeUnwantedStrings(str content) {
+// Removes backslashed from strings, to prevent wrongly detecting comments.
+// now, how to remove multiple backslashes in a sentence.
+// doesnt work for |java+compilationUnit:///src/smallsql/database/StoreImpl.java|, line 73
+	return visit (content) { 
+		case /<string:".*?">/ => replaceAll(string,"\\","")
+		//case /["']<x:[^\\]*>\\*<y:[^\\]*>?["']/ => "\"<x><y>\""
 	}
 }
