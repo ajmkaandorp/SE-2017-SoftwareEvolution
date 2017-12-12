@@ -24,34 +24,57 @@ public lrel[loc,loc] getClones(int cloneType, loc projectLocation, set[Declarati
 	// Step 1
 	//##############################################################
 	lrel[loc,loc] clones = [];
-	
+	lrel[node, node] subTreePairs = [];
 	// Step 2
 	//##############################################################
 	
 	//node: Values of type node represent untyped trees
 	//bucket: 
 	map[node, list[node]] buckets = ();
+	bool x = true;
 	
 	visit(ast) {
 		case node i: {
-				if (getMass(i) >= getMassThreshold()) {
+				//if total mass of node is greater than the threshold
+			    int mass = getMass(i);
+				if (mass >= getMassThreshold()) {
+					//if bucket is already defined
 					if (buckets[i]?) {
 						buckets[i] += i;
+					//if bucket is not defined yet
 					} else {
 						buckets[i] = [i];
-				}
+					}
 				}
 		}
 	}
 	
+	for(bucket <- buckets) {
+		subTreePairs
+		for(<i,j> <- subTreePairs){
+			
+		}
+	}
+	
+	//
 	// Step 3
 	//##############################################################
 	
 	
 	
 	
+	
 		
 	return [];
+}
+
+
+public lrel[node, node] combinations(list[node] nodes) {
+	
+}
+
+private bool CompareTree(node i, node j) {
+	return true;
 }
 
 private int getMass(node i) {

@@ -12,3 +12,7 @@ public loc getProject(int number)
 public int getMassThreshold() {
 	return 4;
 }
+
+public int getSimilarityThreshold() {
+	return 2;
+}
