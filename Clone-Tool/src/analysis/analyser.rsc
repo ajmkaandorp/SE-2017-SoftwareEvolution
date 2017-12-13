@@ -66,7 +66,7 @@ public lrel[loc,loc] getClones(int cloneType, loc projectLocation, set[Declarati
 	}	
 	
 	println(size(buckets));
-	
+	println(size(ignoredBuckets));
 	
 	
 	
@@ -114,13 +114,10 @@ public lrel[tuple[node,loc], tuple[node,loc]] getTreeRelations(map[node, lrel[no
 public loc getNodeLocation(node i, loc location) {		
 		//http://tutor.rascal-mpl.org/Rascal/Libraries/analysis/m3/AST/src/src.html
 		if (Declaration d := i && d.src?) {
-				println("Declaration: <d.src>");
 				location = d.src;
 		} else if (Expression e := i && e.src?) {
-				println("Expression: <e.src>");
 				location = e.src;
 		} else if (Statement s := i && s.src?) {
-				println("Statement: <s.src>");
 				location = s.src;
 		}	
 		return location;
