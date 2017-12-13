@@ -7,7 +7,6 @@ import Set;
 import List;
 import metrics::vol;
 
-/**
  * Metric: Duplication
  * Summary: Code duplication is defined in this project as all code
  			that is seen in more than one cases in code fragments of 6
