@@ -35,31 +35,49 @@ public lrel[loc,loc] getClones(int cloneType, loc projectLocation, set[Declarati
 	//node: Values of type node represent untyped trees
 	//bucket: 
 	map[node, lrel[node, loc, int]] buckets = ();
+	map[node, loc] ignoredBuckets = ();
 	
 	bool x = true;
 	int similarityThreshold = getSimilarityThreshold();
 	
 	visit(ast) {
 		case node i: {
+				loc location = getNodeLocation(i, projectLocation);
+				if(ignoredBuckets[i]? && ignoredBuckets[i] == location);
+				else {
 				//if total mass of node is greater than the threshold
 			    int mass = getMass(i);
 				if (mass >= getMassThreshold()) {
 					//hash node to bucket
-					loc location = getNodeLocation(i, projectLocation);
 					if (buckets[i]?) {
 						buckets[i] += <i,location, mass>;
-					} 
+					}
 					else {
 						buckets[i] = [<i,location, mass>];
+						ignoredBuckets[i] = [location];
+						visit(i){
+							case node j: 
+								ignoredBuckets[j] =  [location];
+						}
 					}
+					
+					
 				}	
 			}
+		}
 	}	
-	int cloneInt = 0;
+	
+	
+	
+	
 	// Step 3
 	//##############################################################	
 	for(bucket <- buckets) {
-		for(<i,_,_> <- bucket) {
+		
+		lrel[node, int] subTrees = [];
+		
+		
+		for(<_,_> <- bucket) {
 			for(<j,_,_> <- bucket) {
 				if(compareTree(i,j) > similarityThreshold) {
 					println(i);
