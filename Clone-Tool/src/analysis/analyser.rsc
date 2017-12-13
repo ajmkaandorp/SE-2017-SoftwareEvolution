@@ -54,36 +54,36 @@ public lrel[loc,loc] getClones(int cloneType, loc projectLocation, set[Declarati
 					}
 					else {
 						buckets[i] = [<i,location, mass>];
-						ignoredBuckets[i] = [location];
+						ignoredBuckets[i] = location;
 						visit(i){
 							case node j: 
-								ignoredBuckets[j] =  [location];
+								ignoredBuckets[j] =  location;
 						}
-					}
-					
-					
+					}			
 				}	
 			}
 		}
 	}	
+	
+	println(size(buckets));
 	
 	
 	
 	
 	// Step 3
 	//##############################################################	
-	for(bucket <- buckets) {
-		
-		lrel[node, int] subTrees = [];
-		
-		
-		for(<_,_> <- bucket) {
-			for(<j,_,_> <- bucket) {
-				if(compareTree(i,j) > similarityThreshold) {
-					println(i);
-				}
-			}
-		}
+	//for(bucket <- buckets) {
+	//	
+	//	lrel[node, int] subTrees = [];
+	//	
+	//	
+	//	for(<_,_> <- bucket) {
+	//		for(<j,_,_> <- bucket) {
+	//			if(compareTree(i,j) > similarityThreshold) {
+	//				println(i);
+	//			}
+	//		}
+	//	}
 		
 		//If CompareTree(i,j) > SimilarityThreshold
 		//if(size(buckets[bucket]) > similarityThreshold) {
@@ -98,7 +98,7 @@ public lrel[loc,loc] getClones(int cloneType, loc projectLocation, set[Declarati
 		//	}
 		//}
 		//println("test");
-	}
+	//}
 	return [];
 }
 
