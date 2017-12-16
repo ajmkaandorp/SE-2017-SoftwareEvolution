@@ -26,7 +26,7 @@ void main() {
 	
 	//get clones of type 1
 	println("Start analyzation of type <cloneType>");
-	lrel[tuple[node, loc, int], tuple[node,loc, int]] clones = getClones(projectLocation, ast);
+	map[node, lrel[node, loc, int]] clones = getClones(projectLocation, ast);
 	
 	println("Amount of clones: <size(clones)>");
 	
