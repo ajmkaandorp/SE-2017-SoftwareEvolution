@@ -25,15 +25,33 @@ public map[node, lrel[node, loc, int]] getClones(loc projectLocation, set[Declar
 										//but are saved together with their location to differentiate them.
 	rel[node, int] bucketMass = {};
 	map[node, lrel[node, loc, int]] buckets = (); 
-											
+	list[node] nodeList;							
 	println("##########################################################################");
 	println("Started hashing the subtrees to buckets at <(printTime(now()))>");
+	
+	bool bol = true;
+	
 	visit(ast) {
 		case node i: {
 			//if total mass of node is greater than the threshold
 		    int mass = getMass(i);
 			if (mass >= getMassThreshold()) {
-				buckets = addNodeToMap(buckets, bucketMass, i, mass, projectLocation);
+			//https://stackoverflow.com/questions/47555798/comparing-ast-nodes
+					node j = unsetRec(i);
+				// buckets = addNodeToMap(buckets, bucketMass, i, mass, projectLocation);
+					loc location = getNodeLocation(i, projectLocation);
+										
+					if (buckets[j]?) {
+						buckets[j] += <i,location, mass>;
+					} else {
+						buckets[j] = [<i,location, mass>];
+						if(bol) {
+							println(buckets[j]);
+							bol = false;
+						}
+					}
+					bucketMass += <i, mass>;
+	
 			}	
 		}
 	}
@@ -55,13 +73,12 @@ public map[node, lrel[node, loc, int]] getClones(loc projectLocation, set[Declar
 	
 	// Creates a new map, only containing clone nodes. Creates a set to later kick out redundant clones.
 	for(bucket <- buckets) {
-		if(size(buckets[bucket])>1) { // Picks out only the clone nodes.
-			println("were in"); 
-			
-			clones[subTree] = buckets[subTree]; // Building of new map.
+		if(size(buckets[bucket])>1) { // Picks out only the clone nodes.			
+			clones[bucket] = buckets[bucket]; // Building of new map.
 			visit(bucket) { // Building of kick set. Duplicates are automatically prevented because it is a set.
 				//case bucket: println("hi"); // Ignores the root node of this visit.
-				case node i: if(i!=bucket && buckets[i]? && size(buckets[bucket]) == size(buckets[i])) {childsToKick+=i;}
+				case node i: if(i!=bucket && buckets[i]? && size(buckets[bucket]) == size(buckets[i])) {childsToKick+=i; 	println("###########");		iprintln(i);}
+				
 			}
 		}
 	}

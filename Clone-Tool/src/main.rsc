@@ -19,7 +19,7 @@ void main() {
 	println("Starting clone detection at : " + printTime(now(), "HH:mm:ss"));
 	
 	// get the m3 model
-	loc projectLocation = getProject(2);
+	loc projectLocation = getProject(1);
 	M3 model = getM3Model(projectLocation);
 	set[Declaration] ast = getAST(projectLocation);
 	int cloneType = 1;
