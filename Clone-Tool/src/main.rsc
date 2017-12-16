@@ -9,6 +9,7 @@ import List;
 import String;
 import DateTime;
 import Set;
+import Map;
 
 import analysis::analyser;
 import visualization::visualizer;
@@ -19,7 +20,7 @@ void main() {
 	println("Starting clone detection at : " + printTime(now(), "HH:mm:ss"));
 	
 	// get the m3 model
-	loc projectLocation = getProject(1);
+	loc projectLocation = getProject(2);
 	M3 model = getM3Model(projectLocation);
 	set[Declaration] ast = getAST(projectLocation);
 	int cloneType = 1;
