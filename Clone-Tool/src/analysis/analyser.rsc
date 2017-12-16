@@ -14,12 +14,8 @@ import Set;
 import Map;
 import Node;
 import config;
-
-private map[node, lrel[node, loc, int]] buckets = (); // Map of unique nodes
-private map[node, lrel[node, loc, int]] clones = ();
+// Map of unique nodes
 //public map[node, lrel[tuple[node, loc, int], tuple[node,loc, int]]] clones = ();
-private rel[node, int] bucketMass = {};
-private map[node, loc] ignoredBuckets = ();
 
 //public lrel[tuple[node, loc, int], tuple[node,loc, int]] getClones(loc projectLocation, set[Declaration] ast) {
 public map[node, lrel[node, loc, int]] getClones(loc projectLocation, set[Declaration] ast) {
@@ -27,6 +23,8 @@ public map[node, lrel[node, loc, int]] getClones(loc projectLocation, set[Declar
 	//http://leodemoura.github.io/files/ICSM98.pdf
 	//map[node, loc] ignoredBuckets = (); // Map of nodes we do not wish to visit. These nodes have been determined to be clones, 
 										//but are saved together with their location to differentiate them.
+	rel[node, int] bucketMass = {};
+	map[node, lrel[node, loc, int]] buckets = (); 
 											
 	println("##########################################################################");
 	println("Started hashing the subtrees to buckets at <(printTime(now()))>");
@@ -35,10 +33,14 @@ public map[node, lrel[node, loc, int]] getClones(loc projectLocation, set[Declar
 			//if total mass of node is greater than the threshold
 		    int mass = getMass(i);
 			if (mass >= getMassThreshold()) {
-				addNodeToMap(i, mass, projectLocation);
+				buckets = addNodeToMap(buckets, bucketMass, i, mass, projectLocation);
 			}	
 		}
 	}
+	
+	map[node, lrel[node, loc, int]] clones = ();
+	map[node, loc] ignoredBuckets = ();
+	
 	
 	println("Buckets: <size(buckets)>");
 	
@@ -52,10 +54,11 @@ public map[node, lrel[node, loc, int]] getClones(loc projectLocation, set[Declar
 	set[node] childsToKick = {};
 	
 	// Creates a new map, only containing clone nodes. Creates a set to later kick out redundant clones.
-	for(bucket<-buckets) {
-		//println(buckets[bucket]); println();
+	for(bucket <- buckets) {
 		if(size(buckets[bucket])>1) { // Picks out only the clone nodes.
-			clones[bucket] = buckets[bucket]; // Building of new map.
+			println("were in"); 
+			
+			clones[subTree] = buckets[subTree]; // Building of new map.
 			visit(bucket) { // Building of kick set. Duplicates are automatically prevented because it is a set.
 				//case bucket: println("hi"); // Ignores the root node of this visit.
 				case node i: if(i!=bucket && buckets[i]? && size(buckets[bucket]) == size(buckets[i])) {childsToKick+=i;}
@@ -118,7 +121,10 @@ public lrel[tuple[node, loc, int], tuple[node,loc, int]] getAllBucketRelations(l
 	return bucketRelations;
 }
 
-public void addNodeToMap(node i, int mass, loc projectLocation) {
+//bucketmass: Test variable, leave it in for now
+
+public map[node, lrel[node, loc, int]] addNodeToMap(map[node, lrel[node, loc, int]] buckets, rel[node, int] bucketMass,
+													 node i, int mass, loc projectLocation) {
 
 	loc location = getNodeLocation(i, projectLocation);
 	if (buckets[i]?) {
@@ -128,6 +134,8 @@ public void addNodeToMap(node i, int mass, loc projectLocation) {
 		buckets[i] = [<i,location, mass>];
 	}
 	bucketMass += <i, mass>;
+	
+	return buckets;
 }
 
 public loc getNodeLocation(node i, loc location) {		
