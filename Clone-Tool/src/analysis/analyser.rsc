@@ -16,25 +16,27 @@ import Node;
 import config;
 
 public map[node, lrel[node, loc, int]] buckets = (); // Map of unique nodes
-public map[node, lrel[tuple[node, loc, int], tuple[node,loc, int]]] clones = ();
+public map[node, lrel[node, loc, int]] clones = ();
+//public map[node, lrel[tuple[node, loc, int], tuple[node,loc, int]]] clones = ();
 public rel[node, int] bucketMass = {};
 public map[node, loc] ignoredBuckets = ();
 
-public lrel[tuple[node, loc, int], tuple[node,loc, int]] getClones(loc projectLocation, set[Declaration] ast) {
+//public lrel[tuple[node, loc, int], tuple[node,loc, int]] getClones(loc projectLocation, set[Declaration] ast) {
+public map[node, lrel[node, loc, int]] getClones(loc projectLocation, set[Declaration] ast) {
 	// Source for our approach:
 	//http://leodemoura.github.io/files/ICSM98.pdf
-	map[node, loc] ignoredBuckets = (); // Map of nodes we do not wish to visit. These nodes have been determined to be clones, 
+	//map[node, loc] ignoredBuckets = (); // Map of nodes we do not wish to visit. These nodes have been determined to be clones, 
 										//but are saved together with their location to differentiate them.
 	
 	println("##########################################################################");
 	println("Started hashing the subtrees to buckets at <(printTime(now()))>");
 	visit(ast) {
 		case node i: {
-				//if total mass of node is greater than the threshold
-			    int mass = getMass(i);
-				if (mass >= getMassThreshold()) {
-					addNodeToMap(i, mass, projectLocation);
-				}	
+			//if total mass of node is greater than the threshold
+		    int mass = getMass(i);
+			if (mass >= getMassThreshold()) {
+				addNodeToMap(i, mass, projectLocation);
+			}	
 		}
 	}
 	
@@ -47,48 +49,67 @@ public lrel[tuple[node, loc, int], tuple[node,loc, int]] getClones(loc projectLo
 	// Step 3
 	//##############################################################	
 	
-	for(bucket <- buckets) {	
-			list[node] nodes = [subTree | <subTree,_,_> <- buckets[bucket]];
-			if(size(nodes) >= 2) {
-				println("were in");
-			lrel[tuple[node, loc, int], tuple[node,loc, int]] allBucketRelations = getAllBucketRelations(buckets[bucket]);
-			println("BucketRelations: <size(allBucketRelations)>");
-			for(relation <- allBucketRelations) {
-				
-				//TODO: implement similarity check				
-				if (clones[relation[0][0]]?) {
-					clones[relation[0][0]] += relation;
-				} else {
-					clones[relation[0][0]] = [relation];
-				}
-				removeSubClonesForRelation(relation[0][0]);
-						
+	set[node] childsToKick = {};
+	
+	// Creates a new map, only containing clone nodes. Creates a set to later kick out redundant clones.
+	for(bucket<-buckets) {
+		if(size(buckets[bucket])>1) { // Picks out only the clone nodes.
+			clones[bucket] = buckets[bucket]; // Building of new map.
+			
+			visit(bucket) { // Building of kick set. Duplicates are automatically prevented because it is a set.
+				case bucket: ; // Ignores the root node of this visit.
+				case node i: if(size(buckets[bucket]) < size(buckets[i])) {childsToKick+=i;}
 			}
 		}
 	}
+	
+	// Kicks out clones that are only present inside of other, bigger clones.
+	for(child <- childsToKick){
+		delete(clones,child);
+	}
+	
+	//for(bucket <- buckets) {
+	//	list[node] nodes = [subTree | <subTree,_,_> <- buckets[bucket]];
+	//	if(size(nodes) >= 2) {
+	//		println("were in");
+	//		lrel[tuple[node, loc, int], tuple[node,loc, int]] allBucketRelations = getAllBucketRelations(buckets[bucket]);
+	//		println("BucketRelations: <size(allBucketRelations)>");
+	//		for(relation <- allBucketRelations) {
+	//			
+	//			//TODO: implement similarity check
+	//			if (clones[relation[0][0]]?) {
+	//				clones[relation[0][0]] += relation;
+	//			} else {
+	//				clones[relation[0][0]] = [relation];
+	//			}
+	//			removeSubClonesForRelation(relation[0][0]);
+	//					
+	//		}
+	//	}
+	//}
 	
 	println("Ended clone detection at <(printTime(now()))>");
 	
 	return clones;
 }
 
-private void removeSubClonesForRelation(lrel[tuple[node, loc, int], tuple[node,loc, int]] relation) {
-	removeSubClonesForSubTree(relation[0]);
-	removeSubClonesForSubTree(relation[1]);
-}
-
-private void removeSubClonesForSubTree(tuple[node,loc,int] subTree) {
-	visit (subTree[0]) {
-		case node n: {
-			loc location = subTree[1];
-			for (<i, j> <- clones) {
-				if (i == location || j == location) {
-					clones = delete(clones, indexOf(clones, <i, j>));
-				}
-			}
-		}
-	}	
-}
+//private void removeSubClonesForRelation(lrel[tuple[node, loc, int], tuple[node,loc, int]] relation) {
+//	removeSubClonesForSubTree(relation[0]);
+//	removeSubClonesForSubTree(relation[1]);
+//}
+//
+//private void removeSubClonesForSubTree(tuple[node,loc,int] subTree) {
+//	visit (subTree[0]) {
+//		case node n: {
+//			loc location = subTree[1];
+//			for (<i, j> <- clones) {
+//				if (i == location || j == location) {
+//					clones = delete(clones, indexOf(clones, <i, j>));
+//				}
+//			}
+//		}
+//	}	
+//}
 
 public lrel[tuple[node, loc, int], tuple[node,loc, int]] getAllBucketRelations(lrel[node, loc, int] bucket) {
 	lrel[tuple[node, loc, int], tuple[node, loc, int]] bucketRelations = [];
@@ -107,7 +128,6 @@ public void addNodeToMap(node i, int mass, loc projectLocation) {
 		buckets[i] = [<i,location, mass>];
 	}
 	bucketMass += <i, mass>;
-	
 }
 
 public loc getNodeLocation(node i, loc location) {		
