@@ -19,7 +19,7 @@ void main() {
 	println("Starting clone detection at : " + printTime(now(), "HH:mm:ss"));
 	
 	// get the m3 model
-	loc projectLocation = getProject(1);
+	loc projectLocation = getProject(2);
 	M3 model = getM3Model(projectLocation);
 	set[Declaration] ast = getAST(projectLocation);
 	int cloneType = 1;
@@ -29,8 +29,20 @@ void main() {
 	map[node, lrel[node, loc, int]] clones = getClones(projectLocation, ast);
 	
 	println("Amount of clones: <size(clones)>");
+
+}
+
+void writeJsonToFile() {
+ 	loc projectLocation = getProject(1);
+	M3 model = getM3Model(projectLocation);
+	set[Declaration] ast = getAST(projectLocation);
+	int cloneType = 1;
 	
-	
+	map[node, lrel[node, loc, int]] clones = getClones(projectLocation, ast);
+	map[node,str] cloneStrs = getCloneStrs(clones);
+	str jsonStr = getJsonStr(clones,cloneStrs);
+	writeFile(|project://Clone-Tool/src/analysis/testfile.json|,jsonStr);
+	println("written to file");
 }
 
 // Create a M3 model

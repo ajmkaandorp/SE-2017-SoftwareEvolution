@@ -56,10 +56,6 @@ public map[node, lrel[node, loc, int]] getClones(loc projectLocation, set[Declar
 			}	
 		}
 	}
-	//return buckets;
-	map[node, lrel[node, loc, int]] clones = ();
-	map[node, loc] ignoredBuckets = ();
-	
 	
 	println("Buckets: <size(buckets)>");
 	
@@ -69,7 +65,8 @@ public map[node, lrel[node, loc, int]] getClones(loc projectLocation, set[Declar
 	
 	// Step 3
 	//##############################################################	
-	
+
+	map[node, lrel[node, loc, int]] clones = ();	
 	set[node] childsToKick = {};
 	
 	// Creates a new map, only containing clone nodes. Creates a set to later kick out redundant clones.
@@ -84,7 +81,7 @@ public map[node, lrel[node, loc, int]] getClones(loc projectLocation, set[Declar
 			}
 		}
 	}
-	//println(size(childsToKick));
+
 	// Kicks out clones that are only present inside of other, bigger clones.
 	for(child <- childsToKick){
 		clones = delete(clones,child);
@@ -111,9 +108,36 @@ public map[node, lrel[node, loc, int]] getClones(loc projectLocation, set[Declar
 	//}
 	
 	println("Ended clone detection at <(printTime(now()))>");
-	
 	return clones;
 }
+
+
+public map[node,str] getCloneStrs(map[node, lrel[node, loc, int]] clones){
+	map[node,str] cloneStrs = ();
+	for(clone<-clones){
+		cloneStrs[clone] = readFile(clones[clone][0][1]);
+	}
+	return cloneStrs;
+} 
+
+public str getJsonStr(map[node, lrel[node, loc, int]] clones, map[node,str] cloneStrs) {
+	str Jstring = "\t\"clone_pairs\": [";
+	int n = 1;
+	for(clone<-clones){
+		fileLoc = clones[clone][0][1];
+		Jstring += "\r\n\t\t{\r\n\t\t\t\"id\": \"clone_<n>\",\r\n\r\n\t\t\t\"clone_type\": \"type-1\",\r\n\r\n\t\t\t\"origin\": {\r\n\t\t\t\t\"file\": \"<fileLoc.file>\",\r\n\t\t\t\t\"start_line\": \"<fileLoc.begin.line>\",\r\n\t\t\t\t\"end_line\": \"<fileLoc.end.line>\",\r\n\t\t\t\t\"source_code\": \"<cloneStrs[clone]>\"\r\n\t\t\t},\r\n";
+		for(i<-[1..size(clones[clone])]){
+			cloneLoc = clones[clone][i][1];
+			Jstring += "\r\n\t\t\t\"clone\": {\r\n\t\t\t\t\"file\": \"<cloneLoc.file>\",\r\n\t\t\t\t\"start_line\": \"<cloneLoc.begin.line>\",\r\n\t\t\t\t\"end_line\": \"<cloneLoc.end.line>\",\r\n\t\t\t\t\"source_code\": \"<cloneStrs[clone]>\"\r\n\t\t\t}\r\n\t\t},\r\n";
+		}
+		n+=1;
+	}
+	return Jstring;
+}
+
+
+
+
 
 //private void removeSubClonesForRelation(lrel[tuple[node, loc, int], tuple[node,loc, int]] relation) {
 //	removeSubClonesForSubTree(relation[0]);
