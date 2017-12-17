@@ -39,8 +39,8 @@ void writeJsonToFile() {
 	int cloneType = 1;
 	
 	map[node, lrel[node, loc, int]] clones = getClones(projectLocation, ast);
-	map[node,str] cloneStrs = getCloneStrs(clones);
-	str jsonStr = getJsonStr(clones,cloneStrs);
+	//map[node,str] cloneStrs = getCloneStrs(clones);
+	str jsonStr = getJsonStr(clones);
 	writeFile(|project://Clone-Tool/src/analysis/testfile.json|,jsonStr);
 	println("written to file");
 }

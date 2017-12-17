@@ -1,75 +1,43 @@
 	"clone_pairs": [
 		{
-			"id": 			"clone_1",
+			"id": "clone_1",
 
 			"clone_type": "type-1",
+
 			"origin": {
 				"file": "Clone1.java",
 				"start_line": "4",
 				"end_line": "12",
-				"source_code": "{
-		System.out.print("1");
-		System.out.print("2");
-		System.out.print("3");
-		System.out.print("4");
-		//random
-		System.out.print("5");
-        System.out.print("6");
-	}"
+				"source_code": "{\n\t\tSystem.out.print(\"1\");\n\t\tSystem.out.print(\"2\");\n\t\tSystem.out.print(\"3\");\n\t\tSystem.out.print(\"4\");\n\t\t//random\n\t\tSystem.out.print(\"5\");\n        System.out.print(\"6\");\n\t}"
 			},
 
-			"clone": {
+			"clone_1": {
 				"file": "Clone1.java",
 				"start_line": "13",
 				"end_line": "21",
-				"source_code": "{
-		System.out.print("1");
-		System.out.print("2");
-		System.out.print("3");
-		System.out.print("4");
-		//random
-		System.out.print("5");
-        System.out.print("6");
-	}"
-			}
-		},
+				"source_code": "{\n\t\tSystem.out.print(\"1\");\n\t\tSystem.out.print(\"2\");\n\t\t//random\n\t\tSystem.out.print(\"3\");\n\t\tSystem.out.print(\"4\");\n\t\tSystem.out.print(\"5\");\n        System.out.print(\"6\");\n\t}"
+			},
 
-			"clone": {
+			"clone_2": {
 				"file": "Clone1.java",
 				"start_line": "23",
 				"end_line": "31",
-				"source_code": "{
-		System.out.print("1");
-		System.out.print("2");
-		System.out.print("3");
-		System.out.print("4");
-		//random
-		System.out.print("5");
-        System.out.print("6");
-	}"
-			}
-		},
+				"source_code": "{\n\t\tSystem.out.print(\"1\");\n\t\tSystem.out.print(\"2\");\n\t\tSystem.out.print(\"3\");\n\t\tSystem.out.print(\"4\");\n\t\tSystem.out.print(\"5\");\n\t\t//random\n        System.out.print(\"6\");\n\t}"
+			},
 
-			"clone": {
+			"clone_3": {
 				"file": "Clone1.java",
 				"start_line": "33",
 				"end_line": "41",
-				"source_code": "{
-		System.out.print("1");
-		System.out.print("2");
-		System.out.print("3");
-		System.out.print("4");
-		//random
-		System.out.print("5");
-        System.out.print("6");
-	}"
+				"source_code": "{\n\t\tSystem.out.print(\"1\");\n\t\tSystem.out.print(\"2\");\n\t\tSystem.out.print(\"3\");\n\t\tSystem.out.print(\"4\");\n\t\t//random2\n\t\tSystem.out.print(\"5\");\n        System.out.print(\"6\");\n\t}"
 			}
 		},
 
 		{
-			"id": 			"clone_2",
+			"id": "clone_2",
 
 			"clone_type": "type-1",
+
 			"origin": {
 				"file": "Clone2.java",
 				"start_line": "6",
@@ -77,23 +45,21 @@
 				"source_code": "x = 1+1;"
 			},
 
-			"clone": {
+			"clone_1": {
 				"file": "Clone2.java",
 				"start_line": "7",
 				"end_line": "7",
 				"source_code": "x = 1+1;"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_2": {
 				"file": "Clone2.java",
 				"start_line": "11",
 				"end_line": "11",
 				"source_code": "x = 1+1;"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_3": {
 				"file": "Clone2.java",
 				"start_line": "12",
 				"end_line": "12",
@@ -102,9 +68,10 @@
 		},
 
 		{
-			"id": 			"clone_3",
+			"id": "clone_3",
 
 			"clone_type": "type-1",
+
 			"origin": {
 				"file": "Clone2.java",
 				"start_line": "5",
@@ -112,39 +79,35 @@
 				"source_code": "1+1"
 			},
 
-			"clone": {
+			"clone_1": {
 				"file": "Clone2.java",
 				"start_line": "6",
 				"end_line": "6",
 				"source_code": "1+1"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_2": {
 				"file": "Clone2.java",
 				"start_line": "7",
 				"end_line": "7",
 				"source_code": "1+1"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_3": {
 				"file": "Clone2.java",
 				"start_line": "10",
 				"end_line": "10",
 				"source_code": "1+1"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_4": {
 				"file": "Clone2.java",
 				"start_line": "11",
 				"end_line": "11",
 				"source_code": "1+1"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_5": {
 				"file": "Clone2.java",
 				"start_line": "12",
 				"end_line": "12",
@@ -153,9 +116,10 @@
 		},
 
 		{
-			"id": 			"clone_4",
+			"id": "clone_4",
 
 			"clone_type": "type-1",
+
 			"origin": {
 				"file": "Main.java",
 				"start_line": "10",
@@ -163,7 +127,7 @@
 				"source_code": "fizzOrBuzz = true;"
 			},
 
-			"clone": {
+			"clone_1": {
 				"file": "Main.java",
 				"start_line": "14",
 				"end_line": "14",
@@ -172,36 +136,30 @@
 		},
 
 		{
-			"id": 			"clone_5",
+			"id": "clone_5",
 
 			"clone_type": "type-1",
+
 			"origin": {
 				"file": "Clone2.java",
 				"start_line": "4",
 				"end_line": "8",
-				"source_code": "{
-		int x = 1+1;
-		x = 1+1;
-		x = 1+1;
-	}"
+				"source_code": "{\n\t\tint x = 1+1;\n\t\tx = 1+1;\n\t\tx = 1+1;\n\t}"
 			},
 
-			"clone": {
+			"clone_1": {
 				"file": "Clone2.java",
 				"start_line": "9",
 				"end_line": "13",
-				"source_code": "{
-		int x = 1+1;
-		x = 1+1;
-		x = 1+1;
-	}"
+				"source_code": "{\n\t\tint x = 1+1;\n\t\tx = 1+1;\n\t\tx = 1+1;\n\t}"
 			}
 		},
 
 		{
-			"id": 			"clone_6",
+			"id": "clone_6",
 
 			"clone_type": "type-1",
+
 			"origin": {
 				"file": "Clone1.java",
 				"start_line": "5",
@@ -209,218 +167,194 @@
 				"source_code": "System.out"
 			},
 
-			"clone": {
+			"clone_1": {
 				"file": "Clone1.java",
 				"start_line": "6",
 				"end_line": "6",
 				"source_code": "System.out"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_2": {
 				"file": "Clone1.java",
 				"start_line": "7",
 				"end_line": "7",
 				"source_code": "System.out"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_3": {
 				"file": "Clone1.java",
 				"start_line": "8",
 				"end_line": "8",
 				"source_code": "System.out"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_4": {
 				"file": "Clone1.java",
 				"start_line": "10",
 				"end_line": "10",
 				"source_code": "System.out"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_5": {
 				"file": "Clone1.java",
 				"start_line": "11",
 				"end_line": "11",
 				"source_code": "System.out"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_6": {
 				"file": "Clone1.java",
 				"start_line": "14",
 				"end_line": "14",
 				"source_code": "System.out"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_7": {
 				"file": "Clone1.java",
 				"start_line": "15",
 				"end_line": "15",
 				"source_code": "System.out"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_8": {
 				"file": "Clone1.java",
 				"start_line": "17",
 				"end_line": "17",
 				"source_code": "System.out"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_9": {
 				"file": "Clone1.java",
 				"start_line": "18",
 				"end_line": "18",
 				"source_code": "System.out"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_10": {
 				"file": "Clone1.java",
 				"start_line": "19",
 				"end_line": "19",
 				"source_code": "System.out"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_11": {
 				"file": "Clone1.java",
 				"start_line": "20",
 				"end_line": "20",
 				"source_code": "System.out"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_12": {
 				"file": "Clone1.java",
 				"start_line": "24",
 				"end_line": "24",
 				"source_code": "System.out"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_13": {
 				"file": "Clone1.java",
 				"start_line": "25",
 				"end_line": "25",
 				"source_code": "System.out"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_14": {
 				"file": "Clone1.java",
 				"start_line": "26",
 				"end_line": "26",
 				"source_code": "System.out"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_15": {
 				"file": "Clone1.java",
 				"start_line": "27",
 				"end_line": "27",
 				"source_code": "System.out"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_16": {
 				"file": "Clone1.java",
 				"start_line": "28",
 				"end_line": "28",
 				"source_code": "System.out"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_17": {
 				"file": "Clone1.java",
 				"start_line": "30",
 				"end_line": "30",
 				"source_code": "System.out"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_18": {
 				"file": "Clone1.java",
 				"start_line": "34",
 				"end_line": "34",
 				"source_code": "System.out"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_19": {
 				"file": "Clone1.java",
 				"start_line": "35",
 				"end_line": "35",
 				"source_code": "System.out"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_20": {
 				"file": "Clone1.java",
 				"start_line": "36",
 				"end_line": "36",
 				"source_code": "System.out"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_21": {
 				"file": "Clone1.java",
 				"start_line": "37",
 				"end_line": "37",
 				"source_code": "System.out"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_22": {
 				"file": "Clone1.java",
 				"start_line": "39",
 				"end_line": "39",
 				"source_code": "System.out"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_23": {
 				"file": "Clone1.java",
 				"start_line": "40",
 				"end_line": "40",
 				"source_code": "System.out"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_24": {
 				"file": "Main.java",
 				"start_line": "9",
 				"end_line": "9",
 				"source_code": "System.out"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_25": {
 				"file": "Main.java",
 				"start_line": "13",
 				"end_line": "13",
 				"source_code": "System.out"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_26": {
 				"file": "Main.java",
 				"start_line": "18",
 				"end_line": "18",
 				"source_code": "System.out"
-			}
-		},
+			},
 
-			"clone": {
+			"clone_27": {
 				"file": "Main.java",
 				"start_line": "20",
 				"end_line": "20",
 				"source_code": "System.out"
 			}
-		},
+		}
+	]
+}

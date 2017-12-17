@@ -112,31 +112,50 @@ public map[node, lrel[node, loc, int]] getClones(loc projectLocation, set[Declar
 }
 
 
-public map[node,str] getCloneStrs(map[node, lrel[node, loc, int]] clones){
-	map[node,str] cloneStrs = ();
-	for(clone<-clones){
-		cloneStrs[clone] = readFile(clones[clone][0][1]);
-	}
-	return cloneStrs;
-} 
+//public map[node,str] getCloneStrs(map[node, lrel[node, loc, int]] clones){
+//	map[node,str] cloneStrs = ();
+//	for(clone<-clones){
+//		cloneStrs[clone] = readFile(clones[clone][0][1]);
+//	}
+//	return cloneStrs;
+//} 
 
-public str getJsonStr(map[node, lrel[node, loc, int]] clones, map[node,str] cloneStrs) {
+//public str getJsonStr(map[node, lrel[node, loc, int]] clones, map[node,str] cloneStrs) {
+public str getJsonStr(map[node, lrel[node, loc, int]] clones) {
 	str Jstring = "\t\"clone_pairs\": [";
 	int n = 1;
+	bool putcomma = false;
 	for(clone<-clones){
+		if(putcomma==true){Jstring+=",\r\n";}else{putcomma = true;}
 		fileLoc = clones[clone][0][1];
-		Jstring += "\r\n\t\t{\r\n\t\t\t\"id\": \"clone_<n>\",\r\n\r\n\t\t\t\"clone_type\": \"type-1\",\r\n\r\n\t\t\t\"origin\": {\r\n\t\t\t\t\"file\": \"<fileLoc.file>\",\r\n\t\t\t\t\"start_line\": \"<fileLoc.begin.line>\",\r\n\t\t\t\t\"end_line\": \"<fileLoc.end.line>\",\r\n\t\t\t\t\"source_code\": \"<cloneStrs[clone]>\"\r\n\t\t\t},\r\n";
+		Jstring += "\r\n\t\t{\r\n\t\t\t\"id\": \"clone_<n>\",\r\n\r\n\t\t\t\"clone_type\": \"type-1\",\r\n\r\n\t\t\t\"origin\": {\r\n\t\t\t\t\"file\": \"<fileLoc.file>\",\r\n\t\t\t\t\"start_line\": \"<fileLoc.begin.line>\",\r\n\t\t\t\t\"end_line\": \"<fileLoc.end.line>\",\r\n\t\t\t\t\"source_code\": \"<escapeSourceCode(readFile(fileLoc))>\"\r\n\t\t\t}";
+		int cloneNum = 1;
 		for(i<-[1..size(clones[clone])]){
 			cloneLoc = clones[clone][i][1];
-			Jstring += "\r\n\t\t\t\"clone\": {\r\n\t\t\t\t\"file\": \"<cloneLoc.file>\",\r\n\t\t\t\t\"start_line\": \"<cloneLoc.begin.line>\",\r\n\t\t\t\t\"end_line\": \"<cloneLoc.end.line>\",\r\n\t\t\t\t\"source_code\": \"<cloneStrs[clone]>\"\r\n\t\t\t}\r\n\t\t},\r\n";
+			Jstring += ",\r\n\r\n\t\t\t\"clone_<cloneNum>\": {\r\n\t\t\t\t\"file\": \"<cloneLoc.file>\",\r\n\t\t\t\t\"start_line\": \"<cloneLoc.begin.line>\",\r\n\t\t\t\t\"end_line\": \"<cloneLoc.end.line>\",\r\n\t\t\t\t\"source_code\": \"<escapeSourceCode(readFile(cloneLoc))>\"\r\n\t\t\t}";
+			cloneNum +=1;
 		}
+		Jstring += "\r\n\t\t}";
 		n+=1;
 	}
+	Jstring += "\r\n\t]\r\n}";
 	return Jstring;
 }
 
 
-
+private str escapeSourceCode(str code) {
+    map[str, str] replaceMap = (
+        "\"": "\\\"", 
+        "\\": "\\\\", 
+        "\n": "\\n", 
+        "\b": "\\b", 
+        "\f": "\\f", 
+        "\t": "\\t", 
+        "\r": "\\r",
+        "\\s": "\\\\s"
+    );
+    return escape(code, replaceMap);
+}
 
 
 //private void removeSubClonesForRelation(lrel[tuple[node, loc, int], tuple[node,loc, int]] relation) {
