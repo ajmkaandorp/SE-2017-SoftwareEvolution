@@ -130,12 +130,12 @@ public str getJsonStr(map[node, lrel[node, loc, int]] clones) {
 	for(clone<-clones){
 		if(putcomma==true){JstringEnd+=",\r\n";}else{putcomma = true;}
 		fileLoc = clones[clone][0][1];
-		filesSet += fileLoc;
+		filesSet += toLocation(fileLoc.uri);
 		JstringEnd += "\r\n\t\t{\r\n\t\t\t\"id\": \"clone_<n>\",\r\n\r\n\t\t\t\"clone_type\": \"type-1\",\r\n\r\n\t\t\t\"origin\": {\r\n\t\t\t\t\"file\": \"<fileLoc.file>\",\r\n\t\t\t\t\"start_line\": \"<fileLoc.begin.line>\",\r\n\t\t\t\t\"end_line\": \"<fileLoc.end.line>\",\r\n\t\t\t\t\"source_code\": \"<escapeSourceCode(readFile(fileLoc))>\"\r\n\t\t\t}";
 		int cloneNum = 1;
 		for(i<-[1..size(clones[clone])]){
 			cloneLoc = clones[clone][i][1];
-			filesSet += cloneLoc;
+			filesSet += toLocation(cloneLoc.uri);
 			JstringEnd += ",\r\n\r\n\t\t\t\"clone_<cloneNum>\": {\r\n\t\t\t\t\"file\": \"<cloneLoc.file>\",\r\n\t\t\t\t\"start_line\": \"<cloneLoc.begin.line>\",\r\n\t\t\t\t\"end_line\": \"<cloneLoc.end.line>\",\r\n\t\t\t\t\"source_code\": \"<escapeSourceCode(readFile(cloneLoc))>\"\r\n\t\t\t}";
 			cloneNum +=1;
 		}
