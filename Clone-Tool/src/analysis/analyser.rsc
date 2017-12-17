@@ -19,6 +19,7 @@ import config;
 
 //public lrel[tuple[node, loc, int], tuple[node,loc, int]] getClones(loc projectLocation, set[Declaration] ast) {
 public map[node, lrel[node, loc, int]] getClones(loc projectLocation, set[Declaration] ast) {
+//public node getClones(loc projectLocation, set[Declaration] ast) {
 	// Source for our approach:
 	//http://leodemoura.github.io/files/ICSM98.pdf
 	//map[node, loc] ignoredBuckets = (); // Map of nodes we do not wish to visit. These nodes have been determined to be clones, 
@@ -55,7 +56,7 @@ public map[node, lrel[node, loc, int]] getClones(loc projectLocation, set[Declar
 			}	
 		}
 	}
-	
+	//return buckets;
 	map[node, lrel[node, loc, int]] clones = ();
 	map[node, loc] ignoredBuckets = ();
 	
@@ -77,15 +78,16 @@ public map[node, lrel[node, loc, int]] getClones(loc projectLocation, set[Declar
 			clones[bucket] = buckets[bucket]; // Building of new map.
 			visit(bucket) { // Building of kick set. Duplicates are automatically prevented because it is a set.
 				//case bucket: println("hi"); // Ignores the root node of this visit.
-				case node i: if(i!=bucket && buckets[i]? && size(buckets[bucket]) == size(buckets[i])) {childsToKick+=i; 	println("###########");		iprintln(i);}
+				//case node i: if(i!=bucket && buckets[i]? && size(buckets[bucket]) == size(buckets[i])) {childsToKick+=i; 	println("###########");		iprintln(i);}
+				case node i: if(i!=bucket && buckets[i]? && size(buckets[bucket]) == size(buckets[i])) {childsToKick+=i;}
 				
 			}
 		}
 	}
-	
+	//println(size(childsToKick));
 	// Kicks out clones that are only present inside of other, bigger clones.
 	for(child <- childsToKick){
-		delete(clones,child);
+		clones = delete(clones,child);
 	}
 	
 	//for(bucket <- buckets) {
