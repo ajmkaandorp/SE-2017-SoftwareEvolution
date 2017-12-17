@@ -1,3 +1,244 @@
+{
+	"summary": {
+		"project_name": "testproject"
+	},
+
+	"directories": [
+		"/examples-testing/"
+	],
+
+	"files": [
+		{
+			"name": "Main.java",
+			"dir": "/src/main"
+		},
+
+		{
+			"name": "Clone2.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone2.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone2.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone1.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone1.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone1.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone1.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone1.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone1.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone1.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Main.java",
+			"dir": "/src/main"
+		},
+
+		{
+			"name": "Main.java",
+			"dir": "/src/main"
+		},
+
+		{
+			"name": "Clone2.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone2.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone1.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone1.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone1.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone1.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone1.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone1.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Main.java",
+			"dir": "/src/main"
+		},
+
+		{
+			"name": "Main.java",
+			"dir": "/src/main"
+		},
+
+		{
+			"name": "Main.java",
+			"dir": "/src/main"
+		},
+
+		{
+			"name": "Clone2.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone2.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone2.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone1.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone1.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone1.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone1.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone1.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone1.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone1.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone2.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone2.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone2.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone2.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone1.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone1.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone1.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone1.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone1.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone1.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone1.java",
+			"dir": "/src/main/clones"
+		},
+
+		{
+			"name": "Clone1.java",
+			"dir": "/src/main/clones"
+		}
+	],
+
 	"clone_pairs": [
 		{
 			"id": "clone_1",

@@ -122,24 +122,37 @@ public map[node, lrel[node, loc, int]] getClones(loc projectLocation, set[Declar
 
 //public str getJsonStr(map[node, lrel[node, loc, int]] clones, map[node,str] cloneStrs) {
 public str getJsonStr(map[node, lrel[node, loc, int]] clones) {
-	str Jstring = "\t\"clone_pairs\": [";
+	str JstringEnd = "\t\"clone_pairs\": [";
 	int n = 1;
+	set[loc] filesSet = {};
 	bool putcomma = false;
+	
 	for(clone<-clones){
-		if(putcomma==true){Jstring+=",\r\n";}else{putcomma = true;}
+		if(putcomma==true){JstringEnd+=",\r\n";}else{putcomma = true;}
 		fileLoc = clones[clone][0][1];
-		Jstring += "\r\n\t\t{\r\n\t\t\t\"id\": \"clone_<n>\",\r\n\r\n\t\t\t\"clone_type\": \"type-1\",\r\n\r\n\t\t\t\"origin\": {\r\n\t\t\t\t\"file\": \"<fileLoc.file>\",\r\n\t\t\t\t\"start_line\": \"<fileLoc.begin.line>\",\r\n\t\t\t\t\"end_line\": \"<fileLoc.end.line>\",\r\n\t\t\t\t\"source_code\": \"<escapeSourceCode(readFile(fileLoc))>\"\r\n\t\t\t}";
+		filesSet += fileLoc;
+		JstringEnd += "\r\n\t\t{\r\n\t\t\t\"id\": \"clone_<n>\",\r\n\r\n\t\t\t\"clone_type\": \"type-1\",\r\n\r\n\t\t\t\"origin\": {\r\n\t\t\t\t\"file\": \"<fileLoc.file>\",\r\n\t\t\t\t\"start_line\": \"<fileLoc.begin.line>\",\r\n\t\t\t\t\"end_line\": \"<fileLoc.end.line>\",\r\n\t\t\t\t\"source_code\": \"<escapeSourceCode(readFile(fileLoc))>\"\r\n\t\t\t}";
 		int cloneNum = 1;
 		for(i<-[1..size(clones[clone])]){
 			cloneLoc = clones[clone][i][1];
-			Jstring += ",\r\n\r\n\t\t\t\"clone_<cloneNum>\": {\r\n\t\t\t\t\"file\": \"<cloneLoc.file>\",\r\n\t\t\t\t\"start_line\": \"<cloneLoc.begin.line>\",\r\n\t\t\t\t\"end_line\": \"<cloneLoc.end.line>\",\r\n\t\t\t\t\"source_code\": \"<escapeSourceCode(readFile(cloneLoc))>\"\r\n\t\t\t}";
+			filesSet += cloneLoc;
+			JstringEnd += ",\r\n\r\n\t\t\t\"clone_<cloneNum>\": {\r\n\t\t\t\t\"file\": \"<cloneLoc.file>\",\r\n\t\t\t\t\"start_line\": \"<cloneLoc.begin.line>\",\r\n\t\t\t\t\"end_line\": \"<cloneLoc.end.line>\",\r\n\t\t\t\t\"source_code\": \"<escapeSourceCode(readFile(cloneLoc))>\"\r\n\t\t\t}";
 			cloneNum +=1;
 		}
-		Jstring += "\r\n\t\t}";
+		JstringEnd += "\r\n\t\t}";
 		n+=1;
 	}
-	Jstring += "\r\n\t]\r\n}";
-	return Jstring;
+	JstringEnd += "\r\n\t]\r\n}";
+	
+	putcomma = false;
+	str JstringStart = "{\r\n\t\"summary\": {\r\n\t\t\"project_name\": \"testproject\"\r\n\t},\r\n\r\n\t\"directories\": [\r\n\t\t\"/<getOneFrom(filesSet).authority>/\"\r\n\t],\r\n\r\n\t\"files\": [";
+	for(fileLoc <- filesSet) {
+		if(putcomma == true){JstringStart += ",\r\n";}else{putcomma = true;}
+		JstringStart += "\r\n\t\t{\r\n\t\t\t\"name\": \"<fileLoc.file>\",\r\n\t\t\t\"dir\": \"/<fileLoc.path[1..size(fileLoc.path)-size(fileLoc.file)-1]>\"\r\n\t\t}";
+	}
+	JstringStart += "\r\n\t],\r\n\r\n";
+	
+	return JstringStart+JstringEnd;
 }
 
 
