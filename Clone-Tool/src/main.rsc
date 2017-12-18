@@ -19,7 +19,7 @@ void main() {
 	println("Starting clone detection at : " + printTime(now(), "HH:mm:ss"));
 	
 	// get the m3 model
-	loc projectLocation = getProject(1);
+	loc projectLocation = getProject(2);
 	M3 model = getM3Model(projectLocation);
 	set[Declaration] ast = getAST(projectLocation);
 	int cloneType = 1;
@@ -38,7 +38,7 @@ void main() {
 void writeJsonToFile() {
 // Generates a string containing information about clones and their locations, and writes it to a .json file.
 // This file can then be used to generate a visualization of the clones in a project.
- 	loc projectLocation = getProject(1);
+ 	loc projectLocation = getProject(2);
 	M3 model = getM3Model(projectLocation);
 	set[Declaration] ast = getAST(projectLocation);
 	int cloneType = 1;
