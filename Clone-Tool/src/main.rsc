@@ -27,12 +27,14 @@ void main() {
 	//get clones of type 1
 	println("Start analyzation of type <cloneType>");
 	map[node, lrel[node, loc, int]] clones = getClones(projectLocation, ast);
-	
-	println("Amount of clones: <size(clones)>");
+	println("Ended clone detection at <(printTime(now()))>");
+	println("Number of clones: <size(clones)>");
 
 }
 
 void writeJsonToFile() {
+// Generates a string containing information about clones and their locations, and writes it to a .json file.
+// This file can then be used to generate a visualization of the clones in a project.
  	loc projectLocation = getProject(1);
 	M3 model = getM3Model(projectLocation);
 	set[Declaration] ast = getAST(projectLocation);
@@ -42,7 +44,7 @@ void writeJsonToFile() {
 	//map[node,str] cloneStrs = getCloneStrs(clones);
 	str jsonStr = getJsonStr(clones);
 	writeFile(|project://Clone-Tool/src/analysis/testfile.json|,jsonStr);
-	println("written to file");
+	//println("written to file");
 }
 
 // Create a M3 model
