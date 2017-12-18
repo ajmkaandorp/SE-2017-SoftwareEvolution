@@ -142,7 +142,9 @@ public str getJsonStr(map[node, lrel[node, loc, int]] clones) {
 			if(fileLoc == |unknown:///|(1,1,<1,1>,<11,1>)) {
 				JstringEnd += "\r\n\r\n\t\t\t{\r\n\t\t\t\t\"file\": \"<cloneLoc.file>\",\r\n\t\t\t\t\"start_line\": \"<cloneLoc.begin.line>\",\r\n\t\t\t\t\"end_line\": \"<cloneLoc.end.line>\",\r\n\t\t\t\t\"source_code\": \"\"\r\n\t\t\t}";
 			} else {
-				JstringEnd += "\r\n\r\n\t\t\t{\r\n\t\t\t\t\"file\": \"<cloneLoc.file>\",\r\n\t\t\t\t\"start_line\": \"<cloneLoc.begin.line>\",\r\n\t\t\t\t\"end_line\": \"<cloneLoc.end.line>\",\r\n\t\t\t\t\"source_code\": \"<escapeSourceCode(readFile(cloneLoc))>\"\r\n\t\t\t}";
+				try
+					JstringEnd += "\r\n\r\n\t\t\t{\r\n\t\t\t\t\"file\": \"<cloneLoc.file>\",\r\n\t\t\t\t\"start_line\": \"<cloneLoc.begin.line>\",\r\n\t\t\t\t\"end_line\": \"<cloneLoc.end.line>\",\r\n\t\t\t\t\"source_code\": \"<escapeSourceCode(readFile(cloneLoc))>\"\r\n\t\t\t}";
+				catch IO(msg): println("This did not work: <msg>");
 			}
 			cloneNum +=1;
 			if(cloneNum != size(clones[clone])) {
