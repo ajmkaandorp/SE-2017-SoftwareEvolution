@@ -16,13 +16,14 @@ import Node;
 import config;
 
 
-public map[node, lrel[node, loc, int]] getClones(loc projectLocation, set[Declaration] ast) {
+public map[node, lrel[node, loc, int]] getClones(loc projectLocation, set[Declaration] ast, bool printbool = false) {
 // Generates a map of clones within a project, but without clones that only occur within bigger clones.
 	// Source for our approach:
 	//http://leodemoura.github.io/files/ICSM98.pdf
 
 	rel[node, int] bucketMass = {}; // Logs the mass of all the nodes.
-	map[node, lrel[node, loc, int]] buckets = (); 
+	map[node, lrel[node, loc, int]] buckets = ();
+	
 	//println("##########################################################################");
 	//println("Started hashing the subtrees to buckets at <(printTime(now()))>");
 	
@@ -56,7 +57,7 @@ public map[node, lrel[node, loc, int]] getClones(loc projectLocation, set[Declar
 		}
 	}
 	
-	//println("Buckets: <size(buckets)>");
+	if(printbool)println("Number of unique nodes: <size(buckets)>");
 	//
 	//println("Ended hashing the subtrees to buckets at <(printTime(now()))>");
 	//println("##########################################################################");
