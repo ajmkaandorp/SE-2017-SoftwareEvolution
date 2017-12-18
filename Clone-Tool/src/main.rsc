@@ -25,9 +25,9 @@ void main() {
 	int cloneType = 1;
 	
 	//get clones of type 1
-	println("Start analyzation of type <cloneType>");
+	println("Start detection of clone type <cloneType>");
 	map[node, lrel[node, loc, int]] clones = ();
-	clones = getClones(projectLocation, ast);
+	clones = getClones(projectLocation, ast, printbool = true);
 	//if(cloneType == 1){clones = getClones(projectLocation, ast);
 	//}else{clones = getClones(projectLocation, type2Ast(ast));}
 	println("Ended clone detection at <(printTime(now()))>");
