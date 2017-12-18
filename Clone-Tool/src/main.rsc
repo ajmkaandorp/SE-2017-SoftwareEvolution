@@ -19,14 +19,17 @@ void main() {
 	println("Starting clone detection at : " + printTime(now(), "HH:mm:ss"));
 	
 	// get the m3 model
-	loc projectLocation = getProject(2);
+	loc projectLocation = getProject(1);
 	M3 model = getM3Model(projectLocation);
 	set[Declaration] ast = getAST(projectLocation);
 	int cloneType = 1;
 	
 	//get clones of type 1
 	println("Start analyzation of type <cloneType>");
-	map[node, lrel[node, loc, int]] clones = getClones(projectLocation, ast);
+	map[node, lrel[node, loc, int]] clones = ();
+	clones = getClones(projectLocation, ast);
+	//if(cloneType == 1){clones = getClones(projectLocation, ast);
+	//}else{clones = getClones(projectLocation, type2Ast(ast));}
 	println("Ended clone detection at <(printTime(now()))>");
 	println("Number of clones: <size(clones)>");
 

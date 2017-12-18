@@ -72,10 +72,7 @@ public map[node, lrel[node, loc, int]] getClones(loc projectLocation, set[Declar
 		if(size(buckets[bucket])>1) { // Picks out only the clone nodes.			
 			clones[bucket] = buckets[bucket]; // Building of new map.
 			visit(bucket) { // Building of kick set. Duplicates are automatically prevented because it is a set.
-				//case bucket: println("hi"); // Ignores the root node of this visit.
-				//case node i: if(i!=bucket && buckets[i]? && size(buckets[bucket]) == size(buckets[i])) {childsToKick+=i; 	println("###########");		iprintln(i);}
 				case node i: if(i!=bucket && buckets[i]? && size(buckets[bucket]) == size(buckets[i])) {childsToKick+=i;}
-				
 			}
 		}
 	}
@@ -84,41 +81,37 @@ public map[node, lrel[node, loc, int]] getClones(loc projectLocation, set[Declar
 	for(child <- childsToKick){
 		clones = delete(clones,child);
 	}
-	
-	//for(bucket <- buckets) {
-	//	list[node] nodes = [subTree | <subTree,_,_> <- buckets[bucket]];
-	//	if(size(nodes) >= 2) {
-	//		println("were in");
-	//		lrel[tuple[node, loc, int], tuple[node,loc, int]] allBucketRelations = getAllBucketRelations(buckets[bucket]);
-	//		println("BucketRelations: <size(allBucketRelations)>");
-	//		for(relation <- allBucketRelations) {
-	//			
-	//			//TODO: implement similarity check
-	//			if (clones[relation[0][0]]?) {
-	//				clones[relation[0][0]] += relation;
-	//			} else {
-	//				clones[relation[0][0]] = [relation];
-	//			}
-	//			removeSubClonesForRelation(relation[0][0]);
-	//					
-	//		}
-	//	}
-	//}
-	
-	//println("Ended clone detection at <(printTime(now()))>");
+
 	return clones;
 }
 
-
-//public map[node,str] getCloneStrs(map[node, lrel[node, loc, int]] clones){
-//	map[node,str] cloneStrs = ();
-//	for(clone<-clones){
-//		cloneStrs[clone] = readFile(clones[clone][0][1]);
+//public set[Declaration] type2Ast(set[Declaration] ast){
+//// A start for the type 2 clone detecting, but it doesnt work yet
+////public list[node] type2Ast(set[Declaration] ast){
+//	node j = ""(); 
+//	visit(ast){
+//		//case node i: if(size(getChildren(i)) == 0){
+//		//	i = ""();
+//			//if(j!= ""()){return [i,j];}
+//			//j = i;			
+//			//iprintln(i);
+//			//println();
+//			//i.src = |unknown:///|;
+//			//i.name = |unresolved:///|;
+//			//i.decl = |unresolved:///|;
+//			//i.typ = \any();
+//			//i.modifiers = [];
+//			//i.messages = [];
+//			//}
+//		//case /Type i => /Type void()
+//		case /Expression i => ...
+//		//case /Type i : iprintln(i);
 //	}
-//	return cloneStrs;
-//} 
+//	
+//	return ast;
+//}
 
-//public str getJsonStr(map[node, lrel[node, loc, int]] clones, map[node,str] cloneStrs) {
+
 public str getJsonStr(map[node, lrel[node, loc, int]] clones) {
 // Writes the found clones into a string with a format (.json) from which the visualisation can be initialized.
 // This is done in two parts: clone pairs and files. Clone pairs will go into the string after files, 
@@ -173,45 +166,6 @@ private str escapeSourceCode(str code) {
     return escape(code, replaceMap);
 }
 
-
-//private void removeSubClonesForRelation(lrel[tuple[node, loc, int], tuple[node,loc, int]] relation) {
-//	removeSubClonesForSubTree(relation[0]);
-//	removeSubClonesForSubTree(relation[1]);
-//}
-//
-//private void removeSubClonesForSubTree(tuple[node,loc,int] subTree) {
-//	visit (subTree[0]) {
-//		case node n: {
-//			loc location = subTree[1];
-//			for (<i, j> <- clones) {
-//				if (i == location || j == location) {
-//					clones = delete(clones, indexOf(clones, <i, j>));
-//				}
-//			}
-//		}
-//	}	
-//}
-
-//public lrel[tuple[node, loc, int], tuple[node,loc, int]] getAllBucketRelations(lrel[node, loc, int] bucket) {
-//	lrel[tuple[node, loc, int], tuple[node, loc, int]] bucketRelations = [];
-//	//add all possible relations of pairs between subtrees to one another
-//	bucketRelations += bucket * bucket;
-//	return bucketRelations;
-//}
-
-//public map[node, lrel[node, loc, int]] addNodeToMap(map[node, lrel[node, loc, int]] buckets, rel[node, int] bucketMass,
-//													 node i, int mass, loc projectLocation) {
-//	loc location = getNodeLocation(i, projectLocation);
-//	if (buckets[i]?) {
-//		println("existing");
-//		buckets[i] += <i,location, mass>;
-//	} else {
-//		buckets[i] = [<i,location, mass>];
-//	}
-//	bucketMass += <i, mass>;
-//	
-//	return buckets;
-//}
 
 public loc getNodeLocation(node i, loc location) {		
 		//http://tutor.rascal-mpl.org/Rascal/Libraries/analysis/m3/AST/src/src.html
