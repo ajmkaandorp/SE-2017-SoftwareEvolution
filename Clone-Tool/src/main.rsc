@@ -30,8 +30,8 @@ void main() {
 	clones = getClones(projectLocation, ast, printbool = true);
 	//if(cloneType == 1){clones = getClones(projectLocation, ast);
 	//}else{clones = getClones(projectLocation, type2Ast(ast));}
-	println("Ended clone detection at <(printTime(now()))>");
-	println("Number of clones: <size(clones)>");
+	//println("Ended clone detection at <(printTime(now()))>");
+	//println("Number of clones: <size(clones)>");
 
 }
 

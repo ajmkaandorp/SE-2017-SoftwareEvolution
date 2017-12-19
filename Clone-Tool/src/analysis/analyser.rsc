@@ -28,6 +28,7 @@ public map[node, lrel[node, loc, int]] getClones(loc projectLocation, set[Declar
 	//println("Started hashing the subtrees to buckets at <(printTime(now()))>");
 	
 	bool printSwitch = false; // An on-off switch for printing the properties of a node, for diagnostics purposes
+	int totalclonenodes = 0;
 	
 	// Builds a map of the entire AST of a project. Nodes are the keys, clone nodes have the same key,
 	// which have one value for each time the node occurs.
@@ -38,22 +39,22 @@ public map[node, lrel[node, loc, int]] getClones(loc projectLocation, set[Declar
 			if (mass >= getMassThreshold()) {
 			//https://stackoverflow.com/questions/47555798/comparing-ast-nodes
 			// Since the locations of nodes are unique, the locations must be dumped before the nodes can be checked for being clones.
-					node j = unsetRec(i);
-				// buckets = addNodeToMap(buckets, bucketMass, i, mass, projectLocation);
-					loc location = getNodeLocation(i, projectLocation);
+				node j = unsetRec(i);
+				loc location = getNodeLocation(i, projectLocation);
+				
+				if (buckets[j]?) {
+					buckets[j] += <i,location, mass>;
+					totalclonenodes += 1;
+				} else {
+					buckets[j] = [<i,location, mass>];
 					
-					if (buckets[j]?) {
-						buckets[j] += <i,location, mass>;
-					} else {
-						buckets[j] = [<i,location, mass>];
-						
-						if(printSwitch) { // Can be used to print properties of a node, for diagnostics purposes
-							println(buckets[j]);
-							printSwitch = false;
-						}
+					if(printSwitch) { // Can be used to print properties of a node, for diagnostics purposes
+						println(buckets[j]);
+						printSwitch = false;
 					}
-					bucketMass += <i, mass>;
-			}	
+				}
+				bucketMass += <i, mass>;
+			}
 		}
 	}
 	
@@ -82,7 +83,13 @@ public map[node, lrel[node, loc, int]] getClones(loc projectLocation, set[Declar
 	for(child <- childsToKick){
 		clones = delete(clones,child);
 	}
-
+	
+	if(printbool){
+		println("Ended clone detection at <(printTime(now()))>");
+		println("Number of nodes within clones: <totalclonenodes>");
+		println("This gives a percentage of clone nodes of <(totalclonenodes*100.0)/size(buckets)> % (including originals)");
+		println("Number of different clones: <size(clones)>");
+	}
 	return clones;
 }
 
