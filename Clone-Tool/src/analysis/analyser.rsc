@@ -123,20 +123,28 @@ public str getJsonStr(map[node, lrel[node, loc, int]] clones) {
 	bool putcomma = false;
 	
 	for(clone<-clones){ // Writes the clone pairs, with their properties.
-		if(putcomma==true){JstringEnd+=",\r\n";}else{putcomma = true;} // Adds commas after the } that closes each entry, but not after the last one.
+		str JstringOrigin = "";
+		//if(putcomma==true){JstringOrigin+=",\r\n";}else{putcomma = true;} // Adds commas after the } that closes each entry, but not after the last one.
 		fileLoc = clones[clone][0][1];
 		filesSet += toLocation(fileLoc.uri); // Saves locations of clones, so that these can be written as well, later.
 		println(fileLoc);
 		
 		if(fileLoc == |unknown:///|(1,1,<1,1>,<11,1>)) {
-			JstringEnd += "\r\n\t\t{\r\n\t\t\t\"id\": \"clone_<pairNum>\",\r\n\r\n\t\t\t\"clone_type\": \"type-1\",\r\n\r\n\t\t\t\"origin\": {\r\n\t\t\t\t\"file\": \"<fileLoc.file>\",\r\n\t\t\t\t\"start_line\": \"<fileLoc.begin.line>\",\r\n\t\t\t\t\"end_line\": \"<fileLoc.end.line>\",\r\n\t\t\t\t\"source_code\": \"\"\r\n\t\t\t}";
+			JstringOrigin += "\r\n\t\t{\r\n\t\t\t\"id\": \"clone_<pairNum>\",\r\n\r\n\t\t\t\"clone_type\": \"type-1\",\r\n\r\n\t\t\t\"origin\": {\r\n\t\t\t\t\"file\": \"<fileLoc.file>\",\r\n\t\t\t\t\"start_line\": \"<fileLoc.begin.line>\",\r\n\t\t\t\t\"end_line\": \"<fileLoc.end.line>\",\r\n\t\t\t\t\"source_code\": \"\"\r\n\t\t\t}";
 		} else {
-			JstringEnd += "\r\n\t\t{\r\n\t\t\t\"id\": \"clone_<pairNum>\",\r\n\r\n\t\t\t\"clone_type\": \"type-1\",\r\n\r\n\t\t\t\"origin\": {\r\n\t\t\t\t\"file\": \"<fileLoc.file>\",\r\n\t\t\t\t\"start_line\": \"<fileLoc.begin.line>\",\r\n\t\t\t\t\"end_line\": \"<fileLoc.end.line>\",\r\n\t\t\t\t\"source_code\": \"<escapeSourceCode(readFile(fileLoc))>\"\r\n\t\t\t}";
+			JstringOrigin += "\r\n\t\t{\r\n\t\t\t\"id\": \"clone_<pairNum>\",\r\n\r\n\t\t\t\"clone_type\": \"type-1\",\r\n\r\n\t\t\t\"origin\": {\r\n\t\t\t\t\"file\": \"<fileLoc.file>\",\r\n\t\t\t\t\"start_line\": \"<fileLoc.begin.line>\",\r\n\t\t\t\t\"end_line\": \"<fileLoc.end.line>\",\r\n\t\t\t\t\"source_code\": \"<escapeSourceCode(readFile(fileLoc))>\"\r\n\t\t\t}";
 		}
-		int cloneNum = 1; // This variable cycles the clone names in the string, to prevent duplicate names.
 		
-		JstringEnd += ",\r\n\t\"clones\": [";
+		//clones
+		
+		int cloneNum = 1; // This variable cycles the clone names in the string, to prevent duplicate names.			
 		for(i<-[1..size(clones[clone])]){
+			
+			JstringEnd += JstringOrigin;
+				JstringEnd += ",\r\n\t\"clone\":";
+				
+			
+			
 			cloneLoc = clones[clone][i][1];
 			filesSet += toLocation(cloneLoc.uri); // Also saves locations of clones, so that these can be written as well, later.
 			
@@ -147,14 +155,10 @@ public str getJsonStr(map[node, lrel[node, loc, int]] clones) {
 					JstringEnd += "\r\n\r\n\t\t\t{\r\n\t\t\t\t\"file\": \"<cloneLoc.file>\",\r\n\t\t\t\t\"start_line\": \"<cloneLoc.begin.line>\",\r\n\t\t\t\t\"end_line\": \"<cloneLoc.end.line>\",\r\n\t\t\t\t\"source_code\": \"<escapeSourceCode(readFile(cloneLoc))>\"\r\n\t\t\t}";
 				catch IO(msg): println("This did not work: <msg>");
 			}
-			cloneNum +=1;
-			if(cloneNum != size(clones[clone])) {
-				JstringEnd += ",";
-			}
+			
+					JstringEnd += "\r\n\t\t},";
+			
 		}
-		
-		JstringEnd += "\r\n\t]\r\n\r\n";
-		JstringEnd += "\r\n\t\t}";
 		pairNum+=1;
 	}
 	JstringEnd += "\r\n\t]\r\n}";

@@ -77,8 +77,8 @@ body {
   stroke-width: 2px;
 }
 
-.link--clone-type-2 {
-  stroke: red;
-  stroke-opacity: 1;
-  stroke-width: 2px;
+.link-self  {
+  stroke: purple;
+  stroke-opacity: 3;
+  stroke-width: 5px;
 }

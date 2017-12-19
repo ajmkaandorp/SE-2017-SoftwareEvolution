@@ -29,102 +29,18 @@
   </head>
 
   <body>
-      <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <a class="navbar-brand" href="#">Clone Visualisatoin</a>
-          </div>
-          <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Select Project <span class="caret"></span></a>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                  <li><a href="#" id="smallsqlSelected">Small Sql</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-      <script>
-      $('#smallsqlSelected').click(function(e) {
-          e.preventDefault();
-          loadVisualization(SMALLSQL_RESULTS_FILE);
-      });
-      </script>
-
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-10 col-sm-offset-3 col-md-10 col-md-offset-1 main">
 
 
           <div class="row">                   
-            <div class="col-md-8">
+            <div class="col-md12" style="text-align: center">
 
-        		  <div id="diagram"></div>
-                      <h3 class="sub-header">Clone view</h3>
-                      <div class="bodycontainer scrollable">
-                        <table id="clone-view-table" class="table table-hover table-striped table-condensed table-scrollable">
-                          <thead>
-                            <tr>
-                              <th></th>
-                              <th>Clone File</th>
-                              <th>Clone Type</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                          </tbody>
-                        </table>
-                      </div>
-                      </div>
-
-
-                  <div class="col-md-4">
-      	          <h3 class="sub-header">Files</h3>
-      	          <div class="bodycontainer scrollable">
-      		            <table id="file-view-table" class="table table-hover table-striped table-condensed table-scrollable">
-      		              <thead>
-      		                <tr>
-      		                  <th></th>
-      		                  <th>File</th>
-      		                  <th>Amount of clones</th>
-      		                </tr>
-      		              </thead>
-      		              <tbody>
-      		              </tbody>
-      		            </table>
-    		          </div>
-      			  </div>
-
-              <!-- Clone view -->
-      			  
-        </div>
-
-  		  <div class="container">
-  			<div>
-          <table class="table col-xs-5">
-            <thead>
-              <tr>
-                <th id="code-detail-view-origin"></th>
-                <th id="code-detail-view-clone"></th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
-
-  			<div id="code-detail-view">
-         
-                <div id="lhs"></div>
-                <div id="rhs"></div>
+        		<div id="diagram" style="display: inline-block;"></div>
 
             </div>
-          </div>
-        </div>
-
     </div>
-
-	<!--  Bootstrap scripts -->
     <script src="libs/bootstrap.min.js"></script>
     <script src="libs/vendor/holder.min.js"></script>
   </body>
