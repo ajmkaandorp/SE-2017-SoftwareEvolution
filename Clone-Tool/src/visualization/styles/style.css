@@ -44,17 +44,24 @@ body {
 
 .node:hover,
 .node--source,
-.node--target {
+.node--target 
+.link--self
+{
   font-weight: 700;
 }
 
 .node--source {
-  fill: #2ca02c;
+  fill: #d62728;
 }
 
 .node--target {
   /*fill: #d62728;*/
-  fill: #2ca02c;
+  fill: #d62728;
+}
+
+.node--self {
+  /*fill: #d62728;*/
+  fill: #d62aa3;
 }
 
 .link--source,
@@ -67,18 +74,36 @@ body {
   stroke: #d62728;
 }
 
+.link--self {
+  stroke: #4286f4;
+}
+
 .link--target {
-  stroke: #2ca02c;
+  stroke: #d62728;
 }
 
 .link--clone-type-1 {
-  stroke: blue;
+  stroke: #d62728;
   stroke-opacity: 1;
-  stroke-width: 2px;
+  stroke-width: 4px;
 }
 
 .link-self  {
   stroke: purple;
   stroke-opacity: 3;
   stroke-width: 5px;
+}
+
+.node--self {
+  color: purple !important;
+  font-size: 200px;
+
+}
+
+svg:not(:root) {
+  overflow: unset !important;
+}
+
+rect {
+  color: rgba(0,0,0,0.3);
 }

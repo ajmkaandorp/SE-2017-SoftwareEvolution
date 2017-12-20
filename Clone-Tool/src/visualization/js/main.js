@@ -1,10 +1,19 @@
-const TEST = "data/testfile.json";
+const TEST = "data/test.json";
 const SMALLSQL = "data/smallsql2.json";
+const HSQLDB = "data/hsqldb.json";
 
+const HIGHLIGHT_ON_MOUSEOVER = false;
+const KEEP_SELECTED_HIGHLIGHT = false;
 const TYPE_1 = "type-1";
+
+
+var GLClearHighlightFromDiagram = () => {};
+var GLSetupHighlightOnDiagram = (b, c) => {};
+var GNode = {};
 
 // Load json file
 loadVisualization(SMALLSQL);
+loadVisualization(TEST);
 
 //Inspiration
 //https://stackoverflow.com/questions/22873374/search-functionality-for-d3-bundle-layout
@@ -14,7 +23,7 @@ function loadVisualization(jsonFile) {
     // Read data file and initialize
     d3.json(jsonFile, (error, data) => {
         if (error) throw error;
-        initializeDiagram(data.files, data.clone_pairs);
+        initializeDiagram(data.files, data.clone_pairs, data.summary.project_name);
     });
 }
 
@@ -32,13 +41,31 @@ function getOriginFiles(files, clonePairs) {
         .map(file => file);
 }
 
-function initializeDiagram(allFiles, allClonePairs) {
+
+function defineSvg(project_name, diameter, radius) {
+    if(project_name == "smallsql") {
+        return d3.select("#diagram").append("svg")
+        .attr("width", diameter * 1)
+        .attr("height", diameter * 1)
+        .append("g")
+        .attr("transform", "translate(" + radius + "," + radius + ")");
+    } else if (project_name == "testproject") {
+         return d3.select("#diagram1").append("svg")
+        .attr("width", diameter * 1)
+        .attr("height", diameter * 1)
+        .append("g")
+        .attr("transform", "translate(" + radius + "," + radius + ")");
+    }
+    
+}
+
+function initializeDiagram(allFiles, allClonePairs, project_name) {
     const type1Clones = allClonePairs
         .filter(clonePair => clonePair.clone_type === TYPE_1)
         .reduce((prev, clonePair) => prev + 1, 0);
-    var diameter = 800;
-    if (totalClones > 1000) {
-        diameter = 800 * 1.8;
+    var diameter = 750;
+    if (type1Clones > 1000) {
+        diameter = 750 * 1.8;
     }
     const radius = diameter / 2;
     const innerRadius = radius - 120;
@@ -53,12 +80,8 @@ function initializeDiagram(allFiles, allClonePairs) {
         .tension(.85)
         .radius(d => d.y)
         .angle(d => d.x / 180 * Math.PI);
-    // Define svg
-    const svg = d3.select("#diagram").append("svg")
-        .attr("width", diameter * 1.2)
-        .attr("height", diameter * 1.2)
-        .append("g")
-        .attr("transform", "translate(" + radius + "," + radius + ")");
+
+    const svg = defineSvg(project_name, diameter, radius);
     var link = svg.append("g").selectAll(".link");
     var linkCircle = svg.append("g").selectAll("circle.link");
     var node = svg.append("g").selectAll(".node");
@@ -76,15 +99,18 @@ function initializeDiagram(allFiles, allClonePairs) {
         })
         .attr("class", "link")
         .attr("d", line);
+
     // self pointing link
     var linkCircles = links.filter(l => l.source.key === l.target.key);
     linkCircle = linkCircle
-        .data(linkCircles, d => d.target.key)
-        .enter().insert("svg:line", ".link")
-        .attr("class", "link")
-        .attr("rx", d => 17)
-        .attr("ry", d => 7)
-        .attr("class", "self-link")
+              .data(linkCircles, d => d.target.key)
+              .enter().insert("svg:rect", ".link")
+              .attr("rx", 0)
+              .attr("ry", 0)
+              .attr("width", 7,5)
+              .attr("height", 7,5)
+              .attr("transform", d => "rotate(" + (d.source.x - 90) + ")translate(" + (d.source.y + 0) + ",0)" + (d.source.x < 180 ? "" : "rotate(180)"));
+
 
     // Create nodes
     node = node
@@ -98,6 +124,8 @@ function initializeDiagram(allFiles, allClonePairs) {
         .on("mouseover", mouseovered(allFiles, allClonePairs))
         .on("mousedown", mousedown(allFiles, allClonePairs))
         .on("mouseout", mouseouted(allFiles, allClonePairs));
+   
+
     var selectedPair;
     // Set files as nodes
     function getFileHierarchy(files, clonePairs) {
@@ -130,8 +158,8 @@ function initializeDiagram(allFiles, allClonePairs) {
         nodes.forEach(d => map[d.name] = d);
         nodes.forEach(node => {
             clonePairs
-                    //retrieve correct json
-                    .filter(clonepair => node.name === clonepair.origin.file ||
+                //retrieve correct json
+                .filter(clonepair => node.name === clonepair.origin.file ||
                     node.name === clonepair.clone.file)
                 .forEach(clonePair => {
                     const cloneFile = clonePair.origin.file === node.name ?
@@ -144,6 +172,80 @@ function initializeDiagram(allFiles, allClonePairs) {
         });
         return clones;
     }
+
+
+    function mousedown(allFiles, allClonePairs) {
+        return function(d) {
+            var index = 0;
+            allFiles
+                .filter(file => file.name === d.key)
+                .forEach(file => {
+                    selectedPair = d;
+                    clearHighlightFromDiagram();
+                    setupHighlightOnDiagram(selectedPair, allClonePairs);
+                    index++;
+                });
+        }
+    }
+
+    function mouseovered(allFiles, allClonePairs) {
+        return function(d) {
+        }
+    }
+
+    function mouseouted(allFiles, allClonePairs) {
+        return function(d) {
+            if (KEEP_SELECTED_HIGHLIGHT && selectedPair !== undefined) {
+                setupHighlightOnDiagram(d, allClonePairs);
+            }
+        }
+    }
+    const clearHighlightFromDiagram = () => {
+        // Remove highlights from diagram
+        link
+            .classed("link--target", false)
+            .classed("link--source", false)
+            .classed("link--clone-type-1", false)
+        linkCircle
+            .classed("link--target", false)
+            .classed("link--source", false)
+            .classed("link--clone-type-1", false)
+        node
+            .classed("node--target", false)
+            .classed("node--source", false);
+    }
+    const setupHighlightOnDiagram = (d, allClonePairs) => {
+        // Style the links
+        var linkCls = "link--target";
+        getClonePairsForFile(d.key, allClonePairs)
+            .filter(clonePair => clonePair.clone_type === TYPE_1)
+            .forEach(() => linkCls = "link--clone-type-1");
+        node
+            .each(n => n.target = n.source = false);
+        linkCircle
+            .classed(linkCls, l => {
+                if (l.source === d || l.target === d) {
+                    l.source.source = true;
+                    return l.source.source = true;
+                }
+            })
+            .filter(function(l) { return l.target === d || l.source === d; })
+            .each(function() { this.parentNode.appendChild(this); });
+        link
+            .classed(linkCls, function(l) {
+                if (l.source === d || l.target === d) {
+                    l.source.source = true;
+                    return l.source.source = true;
+                }
+            })
+            .filter(function(l) { return l.target === d || l.source === d; })
+            .each(function() { this.parentNode.appendChild(this); });
+        node
+            .classed("node--target", n => n.target)
+            .classed("node--source", n => n.source);
+    }
+    GLClearHighlightFromDiagram = clearHighlightFromDiagram;
+    GLSetupHighlightOnDiagram = setupHighlightOnDiagram;
     GNode = node;
     d3.select(self.frameElement).style("height", diameter + "px");
 }

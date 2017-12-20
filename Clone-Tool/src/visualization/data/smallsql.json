@@ -17965,6 +17965,9 @@
 				"file": "CommandInsert.java",
 				"start_line": "166",
 				"end_line": "166",
+								"file": "CommandInsert.java",
+				"start_line": "166",
+				"end_line": "166",
 				"source_code": "c+1"
 			},
 	"clones": [
